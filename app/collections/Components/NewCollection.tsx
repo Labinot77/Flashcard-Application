@@ -6,7 +6,7 @@ import { GoPlus } from 'react-icons/go'
 
 const NewCollection = () => {
   return (
-    <div className="min-w-[12rem] h-full">
+    <div className="min-w-[12rem] h-14 mt-2">
     <DefaultButton
     pending={false}
     onClick={() => createCollection("test", "Long description")} 

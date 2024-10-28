@@ -61,3 +61,17 @@ export const createCollection = async (title: string, description: string) => {
     throw new Error("createCollection", error)
   }
 }
+
+export const deleteCollection = async (id: string) => {
+  try {
+    const collection = await db.collection.delete({
+      where: {
+        id,
+      },
+    })
+
+    return collection
+  } catch (error: any) {
+    throw new Error("deleteCollection", error)
+  }
+}

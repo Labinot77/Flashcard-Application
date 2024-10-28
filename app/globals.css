@@ -7,8 +7,8 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
-  height: 12px; /* Height of the scrollbar */
+  width: 8px; /* Width of the scrollbar */
+  height: 8px; /* Height of the scrollbar */
 }
 
 ::-webkit-scrollbar-track {

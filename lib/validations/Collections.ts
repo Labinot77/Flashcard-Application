@@ -10,8 +10,12 @@ export const FlashcardValidation = z.object({
   flashcards: z.array(
     z.object({
       id: z.string(),
-      question: z.string(),
-      answer: z.string(),
+      question: z.string().min(2, {
+        message: "Question must be at least 2 characters long"
+      }).max(50),
+      answer: z.string().min(2, {
+        message: "Answer must be at least 2 characters long"
+      }).max(50),
       hint: z.string().optional(),
     })
   ),

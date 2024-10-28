@@ -8,10 +8,11 @@ interface Props {
   className?: string
   onClick?: () => void
   pending: boolean
-  children: React.ReactNode
+  type?: "submit" | "button" | "reset" | undefined
+  children: React.ReactNode;
 }
 
-export const DefaultButton = ({ className, onClick, children, pending}: Props) => {
+export const DefaultButton = ({ className, onClick, children, pending, type = "submit" }: Props) => {
   return (
     <>
     {pending ? (
@@ -23,7 +24,7 @@ export const DefaultButton = ({ className, onClick, children, pending}: Props) =
       </Button>
     ) : (
       <Button
-      type="submit"
+      type={type}
       className={`${className} `}
       onClick={onClick}
       >
