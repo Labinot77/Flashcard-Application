@@ -11,7 +11,6 @@ const page = async ({ params }: Props) => {
   const { id } = await params;
   const collection = await getCollectionById(id);
 
-  // Check if the collection was found
   if (!collection) {
     return (
       <main className="flex flex-col justify-center items-center h-full w-full">
@@ -31,7 +30,9 @@ const page = async ({ params }: Props) => {
       </div>
       </div>
 
-      <EditForm collectionId={collection.id} flashcards={collection.flashcards} />
+      <EditForm 
+      collectionId={collection.id} 
+      flashcards={collection.flashcards} />
     </div>
   );
 };

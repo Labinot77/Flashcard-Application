@@ -33,7 +33,7 @@ const CollectionBox = ({ title, description, flashcards, href, createdAt, update
   return (
     // @ts-ignore
     <form onSubmit={handleSubmit(onSubmit)}>
-<main className="bg-[#FF7F50]/50 p-4 rounded-md min-w-[28rem] shadow-2xl">
+      <main className="bg-[#FF7F50]/50 p-4 rounded-md min-w-[28rem] shadow-2xl">
       <div className="flex gap-2 mb-2">
           <DefaultButton className="bg-green-700 w-full" pending={isSubmitting} onClick={handleSubmit(() => onSubmit(`/collections/${href}`))} >
         <FaDoorClosed className="h-6 w-6 text-white" />

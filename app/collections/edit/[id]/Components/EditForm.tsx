@@ -1,7 +1,7 @@
 "use client";
 
 import { DefaultButton } from "@/components/Buttons/DefaultButton";
-import { updateFlashcard } from "@/lib/actions/Flashcard";
+import { createFlashcards, deleteFlashcard, updateFlashcard } from "@/lib/actions/Flashcard";
 import { Flashcard } from "@prisma/client";
 import { Form, FormField, FormControl, FormLabel, FormMessage, FormItem } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,13 +10,15 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   flashcards: Flashcard[];
+  collectionId: string;
 }
 
-const EditForm = ({ flashcards }: Props) => {
+const EditForm = ({ flashcards, collectionId }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const form = useForm<z.infer<typeof FlashcardValidation>>({
     resolver: zodResolver(FlashcardValidation),
@@ -29,34 +31,68 @@ const EditForm = ({ flashcards }: Props) => {
       })),
     },
   });
-
   const { isSubmitting } = form.formState;
+  const [ newFlashcards, setNewFlashcards ] = useState<Flashcard[]>([]);
+
+  const addNewFlashcard = () => {
+    const newFlashcard = {
+      id: Math.random().toString(),
+      question: "",
+      answer: "",
+      hint: "",
+      collectionId: collectionId,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  
+    setNewFlashcards((prev) => [...prev, newFlashcard]);
+  };
 
   const onSubmit = async (values: z.infer<typeof FlashcardValidation>) => {
-    const res = await updateFlashcard(values.flashcards);
-
-
-    if (!res.success) {
-      toast({
-        title: "Error",
-        description: "There was an error updating your flashcards.",
+    console.log("dont", newFlashcards)
+    const formData = {
+      existingFlashcards: values.flashcards.filter((flashcard) => !flashcard.id.startsWith("temp")),
+      newFlashcards: newFlashcards.map((flashcard) => {
+        // Remove the temp id before sending to DB
+        const { id, ...rest } = flashcard;
+        return rest;
       })
-
-      return;
+    };
+  
+    // Update existing flashcards in the database
+    if (formData.existingFlashcards.length > 0) {
+      await updateFlashcard(formData.existingFlashcards);
     }
-    toast({
-      title: "Flashcards Updated",
-      description: "Your flashcards have been updated successfully!",
-    })
+  
+    // Create new flashcards without ids
+    if (formData.newFlashcards.length > 0) {
+      await createFlashcards(formData.newFlashcards); // Adjust as per your create function
+    }
 
-    console.log(values);
+    console.log(formData)
+    // const res = await updateFlashcard(values.flashcards);
+
+
+    // if (!res.success) {
+    //   toast({
+    //     title: "Error",
+    //     description: "There was an error updating your flashcards.",
+    //   })
+
+    //   return;
+    // }
+    // toast({
+    //   title: "Flashcards Updated",
+    //   description: "Your flashcards have been updated successfully!",
+    // })
+
+    // console.log(values);
   };
 
   return (
-    <div className="h-full">
+    <div className="h-full ">
       <Form {...form}>
-        <div className="py-2 overflow-y-scroll h-full pr-2">
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="py-2 pr-2 rounded-md overflow-y-scroll h-[95%]">
           {flashcards.map((item, index) => (
             <div key={item.id} className="mb-4 p-2 rounded-lg bg-slate-600">
               <div className="flex w-full gap-2">
@@ -120,16 +156,26 @@ const EditForm = ({ flashcards }: Props) => {
                   <small onClick={() => {}}>Add hint</small>
                 </div>
               )}
+
+
+            <div>
+              <Button type="button" onClick={() => deleteFlashcard(item.id)}>Delete</Button>
             </div>
+
+            </div>
+
 
           ))}
           
-      <DefaultButton pending={isSubmitting}>Save</DefaultButton>
+            <DefaultButton pending={isSubmitting}>Save</DefaultButton>
           <div ref={ref} className="mb-24" />
         </form>
-        </div>
        
       </Form>
+
+      <DefaultButton pending={false} onClick={() => addNewFlashcard()}>
+          Add New Flashcard
+      </DefaultButton>
     </div>
   );
 };

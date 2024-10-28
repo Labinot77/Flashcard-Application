@@ -8,7 +8,7 @@ const page = async () => {
 
   return (
     <main className="flex flex-wrap gap-4 h-full">
-      <div className="w-full overflow-y-auto h-full">
+        <ul className="pr-2 overflow-y-scroll w-full h-full">
       {collections.map((item) => (
           <CollectionBox
             key={item.id}
@@ -20,7 +20,7 @@ const page = async () => {
             flashcards={item.flashcards.length} />
         ))}
         <NewCollection />
-      </div>
+        </ul>
       
 
 

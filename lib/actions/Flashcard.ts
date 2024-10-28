@@ -54,6 +54,20 @@ export const getFlashcards = async (collectionId: string) => {
 //   }
 // }
 
+export const createFlashcards = async (flashcards: Omit<Flashcard, "id">[]) => {
+  try {
+    // Use a transaction to create multiple flashcards in a single database operation
+    const createdFlashcards = await db.flashcard.createMany({
+      data: flashcards,
+    });
+
+    return { success: true,  };
+  } catch (error) {
+    console.error("Error creating flashcards:", error);
+    return { success: false, error: "Failed to create flashcards" };
+  }
+};
+
 
 export const updateFlashcard = async (flashcards: any) => {
   try {
@@ -81,4 +95,16 @@ export const updateFlashcard = async (flashcards: any) => {
   }
 }
 
+
+export const deleteFlashcard = async (id: string) => {
+  try {
+    await db.flashcard.delete({
+      where: {
+        id,
+      },
+    });
+  } catch (error: any) {
+    throw new NextResponse("deleteFlashcard", error)
+  }
+}
 

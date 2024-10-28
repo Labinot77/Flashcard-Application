@@ -7,7 +7,7 @@ import { DefaultButton } from "../Buttons/DefaultButton";
 import { logout } from "@/lib/actions/authentication/logout";
 import { useRoutes1, useRoutes2, useRoutes3 } from "@/hooks/useRoutes";
 import { useSession } from "next-auth/react";
-import { useCollections } from "@/hooks/useCollections";
+import { IoIosLogOut } from "react-icons/io";
 
 const Sidebar = () => {
   const session = useSession();
@@ -85,11 +85,11 @@ const Sidebar = () => {
             />
 
             <DefaultButton
-              className="bg-red-700"
+              className="bg-red-600"
               pending={false}
               onClick={() => logout()}
             >
-              Logout
+              <IoIosLogOut />
             </DefaultButton>
           </div>
 
