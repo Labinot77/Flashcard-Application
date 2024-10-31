@@ -6,6 +6,11 @@ import NewCollection from "./Components/NewCollection";
 const page = async () => {
   const collections = await getCollections()
 
+  if (collections.length === 0) {
+    return (
+      <h1>No collections</h1>
+    )
+  }
   return (
     <main className="flex flex-wrap gap-4 h-full">
         <ul className="pr-2 overflow-y-scroll w-full h-full">
@@ -19,6 +24,7 @@ const page = async () => {
             updatedAt={item.updatedAt}
             flashcards={item.flashcards.length} />
         ))}
+
         <NewCollection />
         </ul>
       

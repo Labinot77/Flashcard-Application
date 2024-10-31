@@ -18,24 +18,22 @@ export const login = async (values: z.infer<typeof LoginValidation>) => {
   const { email, password } = validatedFields.data
   const existingUser = await getUserByEmail(email)
 
+  if (!existingUser) {
+    return { error: "User with this email doesn't exist!", description: "Try again" }
+  }
+  
   try {
-    if (!existingUser) {
-      return { error: "User with this email doesn't exist!", description: "Try again" }
-    }
-
     const res = await signIn("credentials", {
       redirect: false,
       email: email,
       password: password,
     })
 
-    if (res.success) {
       return {
         title: "Login Success",
         description: "You are logged in!",
         redirect: "/collections",
       }
-    }
   } catch (error: any) {
     if (error instanceof AuthError) {
       switch (error.type) {

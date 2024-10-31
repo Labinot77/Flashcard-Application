@@ -33,12 +33,12 @@ const LoginForm = () => {
     try {
       const res = await login(values)
 
-      if (res.error) {
+      if (res?.error) {
         toast({
           title: res.error,
           description: res.description,
         })
-      } else if(res.title){
+      } else if(res?.title){
         toast({
           title: res.title,
           description: res.description,

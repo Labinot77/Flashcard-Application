@@ -1,6 +1,10 @@
+"use server"
+
 import { auth } from "@/auth"
 import { db } from "@/db"
 import { NextResponse } from "next/server"
+import { UserValidation } from "../validations/user"
+import { z } from "zod"
 
 export const getUserByEmail = async (email: string) => {
   try {
@@ -37,5 +41,25 @@ export const getCurrentSessionUser = async () => {
     return currentSession
   } catch (error: any) {
     throw new NextResponse("getCurrentSessionUser", error)
+  }
+}
+
+
+export const UpdateUser = async (values: z.infer<typeof UserValidation>) => {
+  try {
+    const res = await db.user.update({
+      where: {
+        id: values.id,
+      },
+      data: {
+        name: values.username,
+        email: values.email,
+        image: values.image,
+      },
+    })
+
+    return { success: true }
+  } catch (error) {
+    console.log(error)
   }
 }

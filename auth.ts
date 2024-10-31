@@ -46,6 +46,7 @@ export const { handlers: { GET, POST }, signIn, signOut, auth } = NextAuth({
 
           const result = await bcrypt.compare(password, user.password)
 
+          // console.log(result)
           if (!result) return null
 
           return user

@@ -2,6 +2,7 @@
 
 import { db } from "@/db";
 import { getCurrentSessionUser } from "./User"
+import { wait } from "../Misc";
 
 export const getCollections = async () => {
   try {
@@ -33,6 +34,7 @@ export const getCollectionById = async (id: string) => {
       },
       include: {
         flashcards: true,
+        user: true,
       }
     })
     

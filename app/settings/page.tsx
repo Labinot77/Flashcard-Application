@@ -1,11 +1,23 @@
-import { wait } from '@/lib/Misc'
-import React from 'react'
+import { getCurrentSessionUser } from '@/lib/actions/User'
+import SettingsForm from './Components/SettingsForm'
 
-const page = async() => {
+const page = async () => {
+  const currentUser = await getCurrentSessionUser()
 
-  await wait(5000)
+  if (!currentUser) {
+    return (
+      <div className='w-[90%] h-full flex justify-center items-center'>
+        <h1 className='text-xl'>
+          Your user data is not found, please relog
+        </h1>
+      </div>
+    )
+  }
+
   return (
-    <div className='w-full'>page</div>
+    <main className='w-[90%]'>
+      <SettingsForm currentUser={currentUser} />
+    </main>
   )
 }
 

@@ -6,6 +6,9 @@ import { auth } from "@/auth";
 import clsx from "clsx";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { ModalProvider } from "@/context/ModalContext";
+import ModalContainer from "@/components/ModalContainer";
+import ModalContainerWrapper from "@/components/ModalContainerWrapper";
 
 
 export const metadata: Metadata = {
@@ -22,20 +25,22 @@ export default async function RootLayout({
 
   return (
     <SessionProvider session={session}>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
+        <ModalProvider>
         <body className={clsx(`antialiased`)}>
-            <main className="h-screen overflow-hidden">
           <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
+            defaultTheme="system"
             enableSystem
-            disableTransitionOnChange
-          >
+            disableTransitionOnChange>
+            <main className="h-screen overflow-hidden">
               {children}
-          </ThemeProvider>
             </main>
             <Toaster />
+            <ModalContainerWrapper />
+          </ThemeProvider>
         </body>
+        </ModalProvider>
       </html>
      </SessionProvider>
   );

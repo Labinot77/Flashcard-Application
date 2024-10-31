@@ -2,8 +2,8 @@ import { getCollectionById, getCollections } from "@/lib/actions/Collection";
 import EditForm from "./Components/EditForm";
 
 interface Props {
-  params: { 
-    id: string 
+  params: {
+    id: string
   };
 }
 
@@ -22,17 +22,9 @@ const page = async ({ params }: Props) => {
 
   return (
     <div className="h-full">
-      <div className="flex justify-between items-start">
-      <h1 className="text-5xl">{collection.title}</h1>
-      <div className="flex flex-col gap-2 items-end">
-      <small>ID: {collection.id}</small>
-      <small>Number of Flashcards: {collection.flashcards.length}</small>
-      </div>
-      </div>
-
-      <EditForm 
-      collectionId={collection.id} 
-      flashcards={collection.flashcards} />
+      <EditForm
+        collection={collection}
+        flashcards={collection.flashcards} />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 "use client"
 
 
-import { BarLoader } from 'react-spinners';
+import { PulseLoader } from 'react-spinners';
 import { Button } from '../ui/button';
 
 interface Props {
@@ -20,7 +20,7 @@ export const DefaultButton = ({ className, onClick, children, pending, type = "s
       disabled
       className={`${className}`}
       >
-      <BarLoader />
+        <PulseLoader size={5} loading={true} />
       </Button>
     ) : (
       <Button

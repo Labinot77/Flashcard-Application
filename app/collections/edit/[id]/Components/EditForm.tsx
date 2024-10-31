@@ -2,7 +2,7 @@
 
 import { DefaultButton } from "@/components/Buttons/DefaultButton";
 import { createFlashcards, deleteFlashcard, updateFlashcard } from "@/lib/actions/Flashcard";
-import { Flashcard } from "@prisma/client";
+import { Collection, Flashcard } from "@prisma/client";
 import { Form, FormField, FormControl, FormLabel, FormMessage, FormItem } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FlashcardValidation } from "@/lib/validations/Collections";
@@ -12,17 +12,20 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Props {
   flashcards: Flashcard[];
-  collectionId: string;
+  collection: Collection;
 }
 
-const EditForm = ({ flashcards, collectionId }: Props) => {
+const EditForm = ({ flashcards, collection }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const form = useForm<z.infer<typeof FlashcardValidation>>({
     resolver: zodResolver(FlashcardValidation),
     defaultValues: {
+      title: collection.title,
+      description: collection.description || "",
       flashcards: flashcards.map((flashcard) => ({
         id: flashcard.id,
         question: flashcard.question,
@@ -40,7 +43,7 @@ const EditForm = ({ flashcards, collectionId }: Props) => {
       question: "",
       answer: "",
       hint: "",
-      collectionId: collectionId,
+      collectionId: collection.id,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -48,8 +51,9 @@ const EditForm = ({ flashcards, collectionId }: Props) => {
     setNewFlashcards((prev) => [...prev, newFlashcard]);
   };
 
-  const onSubmit = async (values: z.infer<typeof FlashcardValidation>) => {
-    
+
+    // ! Add both "adding flashcard" and "saving the form" to the same submit function
+  const onSubmit = async (values: z.infer<typeof FlashcardValidation>) => {  
     const formData = {
       existingFlashcards: values.flashcards.filter((flashcard) => !flashcard.id.startsWith("temp")), // ! They don't matter because on refresh they are already added to the db
       newFlashcards: newFlashcards.map((flashcard) => {
@@ -104,7 +108,41 @@ const EditForm = ({ flashcards, collectionId }: Props) => {
     <div className="h-full ">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="h-full">
-          <div className="py-2 pr-2 rounded-md overflow-y-scroll h-[95%]">
+
+        <div className="flex justify-between items-start mb-1">
+        <FormField
+                    control={form.control}
+                    name={`title`}
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        {/* <FormLabel>Title</FormLabel> */}
+                        <FormControl>
+                          <Input {...field} placeholder="Enter title" className="text-5xl" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+        <div className="flex flex-col gap-2 items-end">
+          <small>ID: {collection.id}</small>
+          <small>Number of Flashcards: {flashcards.length}</small>
+        </div>
+      </div>
+      <FormField
+                    control={form.control}
+                    name={`description`}
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        {/* <FormLabel>Title</FormLabel> */}
+                        <FormControl>
+                          <Input {...field} placeholder="Enter description" className="w-full border p-2 rounded-md" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+          <ScrollArea className="py-2 pr-4 rounded-md mt-2 h-[95%]">
           {flashcards.map((item, index) => (
             <div key={item.id} className="mb-4 p-2 rounded-lg bg-[#2e3856] bg-opacity-45 ">
               <div className="flex w-full gap-2">
@@ -176,8 +214,6 @@ const EditForm = ({ flashcards, collectionId }: Props) => {
               </div>
 
             </div>
-
-
           ))}
           
           <DefaultButton className="w-full h-14" pending={false} onClick={() => addNewFlashcard()}>
@@ -186,7 +222,7 @@ const EditForm = ({ flashcards, collectionId }: Props) => {
 
           <DefaultButton pending={isSubmitting}>Save</DefaultButton>
           <div ref={ref} className="mb-14" />
-          </div>
+          </ScrollArea>
         </form>
 
       </Form>
