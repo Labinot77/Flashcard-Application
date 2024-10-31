@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation"
 import { useMemo } from "react";
 import { FaCommentDots, FaUsers, FaCog } from 'react-icons/fa';
 import { useCollections } from "./useCollections";
+import { IoHomeSharp } from "react-icons/io5";
 
 export const useRoutes1 = () => {
   const pathname = usePathname();
@@ -11,10 +12,16 @@ export const useRoutes1 = () => {
 
   const routes = useMemo(() => [
     {
+      label: "Home",
+      href: '/home',
+      icon: IoHomeSharp, 
+      active: pathname === '/home',
+    },
+    {
       label: "Collections",
       href: '/collections',
       icon: FaCommentDots, 
-      active: pathname === '/collections' || !!collectionId,
+      active: pathname === '/collections'  || pathname === '/collections/edit' || pathname === "/collections/create" || !!collectionId,
     },
   ], [pathname, collectionId]);
 
@@ -35,7 +42,7 @@ export const useRoutes2 = () => {
       label: "Create a Class",
       href: "#",
       icon: FaUsers,
-      active: pathname === '/classes',
+      // active: pathname === '',
     },
   ], [pathname]);
 

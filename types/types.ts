@@ -1,5 +1,15 @@
-import { Collection, User } from "@prisma/client";
+import { Collection, Flashcard, User } from "@prisma/client";
 
-export type CollectionExtended = Collection & {
+export type CollectionToUserExtended = Collection & {
   user: User;
+};
+
+export type CollectionData = {
+  title: string;
+  description?: string;
+  flashcards: {
+    question: string;
+    answer: string;
+    hint?: string;
+  }[];
 };

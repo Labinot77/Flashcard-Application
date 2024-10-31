@@ -54,11 +54,15 @@ export const getFlashcards = async (collectionId: string) => {
 //   }
 // }
 
-export const createFlashcards = async (flashcards: Omit<Flashcard, "id">[]) => {
+export const createFlashcards = async (collectionId: string, question: string, answer: string, hint: string) => {
   try {
-    // Use a transaction to create multiple flashcards in a single database operation
-    const createdFlashcards = await db.flashcard.createMany({
-      data: flashcards,
+    const res = await db.flashcard.create({
+      data: {
+        question,
+        answer,
+        hint,
+        collectionId,
+      }
     });
 
     return { success: true,  };
@@ -69,25 +73,19 @@ export const createFlashcards = async (flashcards: Omit<Flashcard, "id">[]) => {
 };
 
 
-export const updateFlashcard = async (flashcards: any) => {
+export const updateFlashcard = async (flashcard: any) => {
   try {
-    const res = await Promise.all(
-      flashcards.map((flashcard: any) =>
-        db.flashcard.update({
-          where: {
-             id: flashcard.id
-           },
-          data: {
-            question: flashcard.question,
-            answer: flashcard.answer,
-            hint: flashcard.hint,
-            updatedAt: new Date(),
-          },
-        })
-      )
-
-      
-    );
+    const res = await db.flashcard.update({
+      where: {
+         id: flashcard.id
+       },
+      data: {
+        question: flashcard.question,
+        answer: flashcard.answer,
+        hint: flashcard.hint,
+        updatedAt: new Date(),
+      },
+    })
 
     return { success: true };
   } catch (error: any) {

@@ -1,20 +1,23 @@
 import { getCollections } from "@/lib/actions/Collection";
 import CollectionBox from "./Components/CollectionBox";
 import NewCollection from "./Components/NewCollection";
-
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const page = async () => {
   const collections = await getCollections()
 
   if (collections.length === 0) {
     return (
-      <h1>No collections</h1>
+      <main className="flex flex-col items-center justify-center h-full gap-5">
+      <h1 className="text-4xl">No Existing Collections</h1>
+      <NewCollection />
+      </main>
     )
   }
   return (
     <main className="flex flex-wrap gap-4 h-full">
-        <ul className="pr-2 overflow-y-scroll w-full h-full">
-      {collections.map((item) => (
+        <ScrollArea className="pr-4 h-full w-full">
+         {collections.map((item) => (
           <CollectionBox
             key={item.id}
             href={item.id} 
@@ -24,9 +27,9 @@ const page = async () => {
             updatedAt={item.updatedAt}
             flashcards={item.flashcards.length} />
         ))}
-
+        
         <NewCollection />
-        </ul>
+        </ScrollArea>
       
 
 

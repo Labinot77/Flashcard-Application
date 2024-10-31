@@ -15,7 +15,7 @@ interface Props {
 const FlashcardComponent = ({ showAnswer, showHint, toggleCard, toggleHint, currentFlashcard }: Props) => {
   return (
     <motion.div 
-    className="w-full h-[18rem] mt-16 bg-[#2e3856] bg-opacity-75 flex flex-col items-center justify-center cursor-pointer rounded-md shadow-lg text-xl text-center p-4 relative"
+    className="w-full h-[18rem] mt-16 bg-card bg-opacity-75 flex flex-col items-center justify-center cursor-pointer rounded-md shadow-lg text-xl text-center p-4 relative"
     onClick={toggleCard}
     initial={{ rotateX: 0 }}
     animate={{ rotateX: showAnswer ? 180 : 0 }}

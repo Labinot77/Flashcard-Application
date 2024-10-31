@@ -11,7 +11,7 @@ const SecondRouteItem = () => {
         <Link
           key={item.href}
           href={item.href}
-          className={`flex items-center gap-x-3 rounded-md p-3 text-base leading-6 font-semibold text-gray-500 hover:bg-gray-100 hover:text-black
+          className={`flex items-center gap-x-3 rounded-md p-3 mt-2 text-base leading-6 font-semibold text-gray-500 hover:bg-gray-100 hover:text-black
                   ${item.active ? "bg-gray-100 text-black" : ""}
                 `}
         >

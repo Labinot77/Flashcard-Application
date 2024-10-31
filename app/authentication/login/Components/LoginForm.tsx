@@ -43,6 +43,7 @@ const LoginForm = () => {
           title: res.title,
           description: res.description,
         })
+        form.reset()
 
         router.push(res.redirect)
       }
@@ -62,7 +63,7 @@ const LoginForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="shadcn" {...field} />
+                <Input type="email" placeholder="johndoe@gmail.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

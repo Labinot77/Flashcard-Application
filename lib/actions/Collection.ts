@@ -2,7 +2,8 @@
 
 import { db } from "@/db";
 import { getCurrentSessionUser } from "./User"
-import { wait } from "../Misc";
+import { NextResponse } from "next/server";
+import { CollectionData } from "@/types/types";
 
 export const getCollections = async () => {
   try {
@@ -44,23 +45,37 @@ export const getCollectionById = async (id: string) => {
   }
 }
 
-export const createCollection = async (title: string, description: string) => {
+// type CreateCollectionResult = { success: boolean; error?: string };
+
+export const createCollection = async (values: CollectionData) => {
+  const currentUser = await getCurrentSessionUser()
+
+  if (!currentUser?.id) {
+    return false
+  }
+
   try {
-    const currentUser = await getCurrentSessionUser();
-
-    if (!currentUser) { throw new Error("User not found") }
-
-    const collection = await db.collection.create({
+    const res = await db.collection.create({
       data: {
-        title,
-        description,
+        title: values.title,
+        description: values.description,
         userId: currentUser?.id,
-      }
+        flashcards: {
+          create: values.flashcards.map((flashcard) => ({
+            question: flashcard.question,
+            answer: flashcard.answer,
+            hint: flashcard.hint,
+          }))
+        }
+      },
+      include: {
+        flashcards: true,
+      },
     })
 
-    return collection
-  } catch (error: any) {
-    throw new Error("createCollection", error)
+    return res
+  } catch (error) {
+    return false
   }
 }
 

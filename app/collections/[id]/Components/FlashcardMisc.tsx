@@ -4,11 +4,11 @@ import { DefaultButton } from "@/components/Buttons/DefaultButton";
 import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation";
 import { useModal } from "@/context/ModalContext";
-import { CollectionExtended } from "@/types/types";
+import { CollectionToUserExtended } from "@/types/types";
 import { IoMdShuffle } from "react-icons/io";
 
 interface Props {
-  collection: CollectionExtended;
+  collection: CollectionToUserExtended;
   recentTime: string;
   onRandomize: () => void;
 }
@@ -51,7 +51,7 @@ const FlashcardMisc = ({ collection, recentTime, onRandomize }: Props) => {
         <div className="flex gap-2 ">
           <DefaultButton pending={false} onClick={handleOpenModal}>Share</DefaultButton> 
           <DefaultButton pending={false} onClick={() => router.push(`edit/${collection.id}`)}>Edit</DefaultButton>
-          <DefaultButton pending={false} className={`${isShuffled ? "bg-neutral-500 bg-opacity-45" : "bg-transparent shadow-none text-neutral-100"}`} onClick={onRandomize}>
+          <DefaultButton pending={false} className={`${isShuffled ? "bg-card bg-opacity-45 text-card-foreground" : "bg-transparent shadow-none text-foreground"}`} onClick={onRandomize}>
             <IoMdShuffle className="h-9 w-9" />
           </DefaultButton>
         </div>
