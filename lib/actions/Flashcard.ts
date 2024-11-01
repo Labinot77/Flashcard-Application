@@ -35,25 +35,6 @@ export const getFlashcards = async (collectionId: string) => {
   }
 }
 
-// In actions/Flashcard.ts
-
-
-
-// export const createFlashcard = async (collectionId: string, question: string, answer: string, hint: string) => {
-//   try {
-//     await db.flashcard.create({
-//       data: {
-//         question,
-//         answer,
-//         hint,
-//         collectionId,
-//       }
-//     })
-//   } catch (error: any) {
-//     throw new NextResponse("createFlashcard", error)
-//   }
-// }
-
 export const createFlashcards = async (collectionId: string, question: string, answer: string, hint: string) => {
   try {
     const res = await db.flashcard.create({
@@ -65,8 +46,8 @@ export const createFlashcards = async (collectionId: string, question: string, a
       }
     });
 
-    return { success: true,  };
-  } catch (error) {
+    return { success: true };
+  } catch (error: any) {
     console.error("Error creating flashcards:", error);
     return { success: false, error: "Failed to create flashcards" };
   }

@@ -13,11 +13,11 @@ export const getUserByEmail = async (email: string) => {
         email: email,
       },
     })
-  
+
     if (!user) {
       return null
     }
-  
+
     return user
   } catch (error: any) {
     throw new NextResponse("getUserByEmail", error)
@@ -37,7 +37,35 @@ export const getCurrentSessionUser = async () => {
         id: session.user.id
       },
     })
-    
+
+    return currentSession
+  } catch (error: any) {
+    throw new NextResponse("getCurrentSessionUser", error)
+  }
+}
+
+export const getCurrentSessionUserData = async () => {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    return null
+  }
+
+  try {
+    const currentSession = await db.user.findUnique({
+      where: {
+        id: session.user.id
+      },
+      include: {
+        collections: {
+          include: {
+            flashcards: true
+          }
+        },
+        classes: true
+      }
+    })
+
     return currentSession
   } catch (error: any) {
     throw new NextResponse("getCurrentSessionUser", error)

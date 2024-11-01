@@ -20,7 +20,7 @@ const page = async () => {
          {collections.map((item) => (
           <CollectionBox
             key={item.id}
-            href={item.id} 
+            id={item.id} // HREF
             title={item.title} 
             description={item.description!} 
             createdAt={item.createdAt}

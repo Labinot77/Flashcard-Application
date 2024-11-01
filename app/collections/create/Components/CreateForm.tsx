@@ -133,7 +133,7 @@ const CreateForm = () => {
                   <FormField
                     control={form.control}
                     name={`flashcards.${index}.question`}
-                    render={({ field, fieldState }) => (
+                    render={({ field }) => (
                       <FormItem className="flex-1">
                         <FormLabel>Question</FormLabel>
                         <FormControl>
@@ -143,9 +143,7 @@ const CreateForm = () => {
                             className="w-full border rounded-md"
                           />
                         </FormControl>
-                        {fieldState.error && (
-                          <FormMessage>{fieldState.error.message}</FormMessage>
-                        )}
+                          <FormMessage />
                       </FormItem>
                     )}
                   />

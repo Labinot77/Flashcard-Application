@@ -106,13 +106,13 @@ const EditForm = ({ flashcards, collection }: Props) => {
   };
 
   const deleteFlashcard = async (id: string) => {
-    const existingFlashcards = form.watch('flashcards')
-    const updatedFlashcards = existingFlashcards.map((flashcard) =>
+    const updatedFlashcards = flashcardList.map((flashcard) =>
       flashcard.id === id ? { ...flashcard, deleted: true } : flashcard
     );
+
     form.setValue('flashcards', updatedFlashcards)
   }
-
+// Duplicate error when deleting flashcards and the adding before saving
   return (
     <div className="h-full ">
       <Form {...form}>
@@ -166,7 +166,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
                   <FormField
                     control={form.control}
                     name={`flashcards.${index}.question`}
-                    render={({ field, fieldState }) => (
+                    render={({ field }) => (
                       <FormItem className="flex-1">
                         <FormLabel>Question</FormLabel>
                         <FormControl>
@@ -176,9 +176,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
                             className="w-full border rounded-md"
                           />
                         </FormControl>
-                        {fieldState.error && (
-                          <FormMessage>{fieldState.error.message}</FormMessage>
-                        )}
+                          <FormMessage />
                       </FormItem>
                     )}
                   />

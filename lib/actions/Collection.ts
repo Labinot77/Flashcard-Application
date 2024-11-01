@@ -74,7 +74,7 @@ export const createCollection = async (values: CollectionData) => {
     })
 
     return res
-  } catch (error) {
+  } catch (error: any) {
     return false
   }
 }
