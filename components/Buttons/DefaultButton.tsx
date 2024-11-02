@@ -3,6 +3,7 @@
 
 import { PulseLoader } from 'react-spinners';
 import { Button } from '../ui/button';
+import { CgSpinner } from 'react-icons/cg';
 
 interface Props {
   className?: string
@@ -18,14 +19,14 @@ export const DefaultButton = ({ className, onClick, children, pending, type = "s
     {pending ? (
       <Button
       disabled
-      className={`${className}`}
+      className={`${className} bg-button`}
       >
-        <PulseLoader size={5} loading={true} />
+         <CgSpinner className="animate-spin dark:text-white text-black w-10 h-10" />
       </Button>
     ) : (
       <Button
       type={type}
-      className={`${className} `}
+      className={`${className}`}
       onClick={onClick}
       >
         {children}

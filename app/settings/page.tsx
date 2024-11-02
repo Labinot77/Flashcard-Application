@@ -8,12 +8,12 @@ const page = async () => {
     return (
       <div className='w-[90%] h-full flex justify-center items-center'>
         <h1 className='text-xl'>
-          Your user data is not found, please relog
+          Your user data is not found, please <strong>RELOG</strong>
         </h1>
       </div>
     )
   }
-
+  
   return (
     <main className='w-[90%]'>
       <SettingsForm currentUser={currentUser} />

@@ -92,3 +92,20 @@ export const deleteCollection = async (id: string) => {
     throw new Error("deleteCollection", error)
   }
 }
+
+export const updateCollection = async (id: string, title: string, description?: string) => {
+  try {
+    await db.collection.update({
+      where: {
+        id: id,
+      },
+      data: {
+        title: title,
+        description: description
+      }
+    })
+  } catch (error: any) {
+    throw new Error("updateCollection", error)
+
+  }
+}

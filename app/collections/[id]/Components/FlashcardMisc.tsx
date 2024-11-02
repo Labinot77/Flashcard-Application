@@ -3,7 +3,6 @@
 import { DefaultButton } from "@/components/Buttons/DefaultButton";
 import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation";
-import { useModal } from "@/context/ModalContext";
 import { CollectionToUserExtended } from "@/types/types";
 import { IoMdShuffle } from "react-icons/io";
 
@@ -17,17 +16,7 @@ interface Props {
 const FlashcardMisc = ({ collection, recentTime, onRandomize }: Props) => {
   const params = useSearchParams();
   const isShuffled = params.get("randomized") === "true";
-    const {openModal} = useModal()
-    const router = useRouter();
-  const handleOpenModal = () => (
-    openModal(
-    <div className="flex flex-col">
-      <small>Created by</small>
-      <p>{collection.user.name}</p>
-      <small>{recentTime}</small>
-    </div>
-    )
-  )
+  const router = useRouter();
 
   return (
     <>
@@ -49,7 +38,7 @@ const FlashcardMisc = ({ collection, recentTime, onRandomize }: Props) => {
         </div>
 
         <div className="flex gap-2 ">
-          <DefaultButton pending={false} onClick={handleOpenModal}>Share</DefaultButton> 
+          <DefaultButton pending={false}>Share</DefaultButton> 
           <DefaultButton pending={false} onClick={() => router.push(`edit/${collection.id}`)}>Edit</DefaultButton>
           <DefaultButton pending={false} className={`${isShuffled ? "bg-card bg-opacity-45 text-card-foreground" : "bg-transparent shadow-none text-foreground"}`} onClick={onRandomize}>
             <IoMdShuffle className="h-9 w-9" />

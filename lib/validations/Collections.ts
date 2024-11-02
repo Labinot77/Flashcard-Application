@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const FlashcardValidation = z.object({
+  collectionId: z.string(),
   title: z.string().min(2),
   description: z.string().optional(),
   flashcards: z.array(

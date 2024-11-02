@@ -25,6 +25,9 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DefaultInput } from "@/components/Inputs/DefaultInput";
 import { useRouter } from "next/navigation";
+import { updateCollection } from "@/lib/actions/Collection";
+import { Card } from "@/components/ui/card";
+import { wait } from "@/lib/Misc";
 
 interface Props {
   flashcards: Flashcard[];
@@ -36,6 +39,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
   const form = useForm<z.infer<typeof FlashcardValidation>>({
     resolver: zodResolver(FlashcardValidation),
     defaultValues: {
+      collectionId: collection.id,
       title: collection.title,
       description: collection.description || "",
       flashcards: flashcards.map((flashcard) => ({
@@ -72,6 +76,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
     const exisitingFlashcards = values.flashcards.filter((flashcard) => !flashcard.id.startsWith("temp"))
     const newFlashcards = values.flashcards.filter((flashcard) => flashcard.id.startsWith("temp") && flashcard.deleted === false) // DONE
     const flashcardsToDelete = values.flashcards.filter((flashcard) => flashcard.deleted); // DONe
+
     try {
       if (newFlashcards.length > 0) {
         for (const flashcard of newFlashcards) {
@@ -92,6 +97,8 @@ const EditForm = ({ flashcards, collection }: Props) => {
         }
       }
 
+      await updateCollection(values.collectionId, values.title, values.description)
+
       router.refresh()
       toast({
         title: "Collection Updated",
@@ -109,6 +116,8 @@ const EditForm = ({ flashcards, collection }: Props) => {
     const updatedFlashcards = flashcardList.map((flashcard) =>
       flashcard.id === id ? { ...flashcard, deleted: true } : flashcard
     );
+
+    await wait(Math.random() * 1000)
 
     form.setValue('flashcards', updatedFlashcards)
   }
@@ -158,9 +167,9 @@ const EditForm = ({ flashcards, collection }: Props) => {
 
           <ScrollArea className="py-2 pr-4 rounded-md mt-2 h-[74vh]">
             {flashcardList.filter(flashcard => !flashcard.deleted).map((flashcard, index) => (
-              <div
+              <Card
                 key={flashcard.id}
-                className="mb-4 p-2 rounded-lg bg-[#2e3856] bg-opacity-45 "
+                className="mb-4 p-3 "
               >
                 <div className="flex w-full gap-2">
                   <FormField
@@ -228,7 +237,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
                   </div>
                 </div>
 
-              </div>
+              </Card>
             ))}
 
             <DefaultButton

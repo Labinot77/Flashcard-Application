@@ -16,8 +16,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 
 interface Props {
   title: string;
@@ -52,8 +50,10 @@ const CollectionBox = ({ title, description, flashcards, id, createdAt, updatedA
   }
 
   return (
-    <main className="bg-[#2e3856] bg-opacity-45 mt-2 p-4 rounded-md shadow-2xl">
-      <div className="flex gap-2 mb-2">
+    <Card 
+    className="p-3 mb-2"
+    >
+      <div className="flex gap-2 mb-1">
         <DefaultButton className="bg-green-700 w-full" type="button" pending={isLoading.view} onClick={() => handleButton("view", `/collections/${id}`)} >
           <FaDoorClosed className="h-6 w-6 text-white" />
         </DefaultButton>
@@ -67,15 +67,16 @@ const CollectionBox = ({ title, description, flashcards, id, createdAt, updatedA
         </div>
       </div>
 
-
-      <h1 className="text-2xl">{title}</h1>
-      <p>{description}</p>
+      <CardHeader>
+      <CardTitle className="text-2xl">{title}</CardTitle>
+      <CardDescription>{description}</CardDescription>
       <Separator className="mt-1 mb-1" />
-      <div className="flex justify-between px-4">
+      <div className="flex justify-between">
         <small>Flashcards: {flashcards}</small>
-        <small>{recentDate}</small>
+        <small className="mr-2">{recentDate}</small>
       </div>
-    </main>
+      </CardHeader>
+    </Card>
 
   )
 }

@@ -1,11 +1,11 @@
 "use client"
 
-import { GridLoader } from "react-spinners"
+import { CgSpinner } from "react-icons/cg";
 
 const LoadingModal = () => {
   return (
-    <div className="fixed inset-0 bg-transparent top-0 left-0 w-full h-full flex items-center justify-center">
-    <GridLoader className="" size={8} />
+    <div className="inset-0 bg-transparent w-full h-full flex items-center justify-center" >
+    <CgSpinner className="animate-spin dark:text-white text-black w-8 h-8" />
   </div>
   )
 }

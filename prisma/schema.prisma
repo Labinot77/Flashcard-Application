@@ -33,6 +33,9 @@ model Collection {
   title String
   description String?
 
+  popularity Int @default(0)
+  seen String[] @default([])
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @db.ObjectId
 
@@ -69,6 +72,32 @@ model Classes {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// model Conversation {
+//   id String @id @default(auto()) @map("_id") @db.ObjectId
+
+//   messagesIds String[] @db.ObjectId
+//   messages Message[]
+
+//   senderIds String @db.ObjectId
+//   users  User[]  @relation(fields: [senderIds], references: [id])
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+// model Message {
+//     id String @id @default(auto()) @map("_id") @db.ObjectId
+//     body String?
+//     image String?
+//     createdAt DateTime @default(now())
+
+//     conversationId String @db.ObjectId
+//     conversation Conversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+//     senderId String @db.ObjectId
+//     sender User @relation(fields: [senderId], references: [id], onDelete: Cascade)
+// }
  
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId

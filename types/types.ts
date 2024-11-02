@@ -6,10 +6,13 @@ export type CollectionToUserExtended = Collection & {
 
 export type CollectionData = {
   title: string;
-  description?: string;
+  description?: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  id: string;
   flashcards: {
     question: string;
     answer: string;
-    hint?: string;
+    hint?: string | null;
   }[];
 };

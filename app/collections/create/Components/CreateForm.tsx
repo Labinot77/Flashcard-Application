@@ -28,6 +28,7 @@ const CreateForm = () => {
     defaultValues: {
       title: "",
       description: "",
+      collectionId: "",
       flashcards: [
         {
           // Need to use Math.random() to avoid duplicate ids
@@ -79,7 +80,7 @@ const CreateForm = () => {
   const onSubmit = async (values: z.infer<typeof FlashcardValidation>) => {
     console.log("Form submitted with values:", values);
 
-    if (form.watch("flashcards").length < 2) {
+    if (form.watch("flashcards").length <= 1) {
       toast({
         title: "Cannot create",
         description: "You have to have more than 2 flashcards"
@@ -204,7 +205,7 @@ const CreateForm = () => {
             {/* <div ref={ref} className="mb-4"/> */}
           </ScrollArea>
 
-            <DefaultButton type="submit" pending={isSubmitting}>
+            <DefaultButton pending={isSubmitting}>
               Create Collection
             </DefaultButton>
         </form>

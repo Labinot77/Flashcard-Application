@@ -6,7 +6,6 @@ import { z } from "zod"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -31,7 +30,7 @@ function SettingsForm({ currentUser }: Props) {
   const form = useForm<z.infer<typeof UserValidation>>({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      image: currentUser.image || "",
+      image: currentUser.image || '',
       id: currentUser.id,
       username: currentUser.name,
       email: currentUser.email,
@@ -58,7 +57,9 @@ function SettingsForm({ currentUser }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-
+        <div className="w-full flex justify-end">
+          ID: {currentUser.id}
+        </div>
         <div onClick={() => changeProfilePicutre()} className="flex justify-center items-center cursor-pointer">
           <Image 
             src={form.watch("image") as string}

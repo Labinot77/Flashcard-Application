@@ -18,11 +18,11 @@ const NewCollection = () => {
   }
 
   return (
-    <div className="min-w-[12rem] h-14 mt-2">
+    <div className="min-w-[12rem] h-14 mt-2 ">
       <DefaultButton
         pending={isSubmitting}
         onClick={handleSubmit}
-        className="w-full h-full rounded-md flex justify-center items-center"
+        className="w-full h-full rounded-md flex justify-center items-center bg-button"
       >
         <GoPlus size={20} />
       </DefaultButton>
