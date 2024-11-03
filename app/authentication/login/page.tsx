@@ -13,7 +13,7 @@ const page = async () => {
 
   return (
     <main className='flex flex-col items-center h-full relative ' >
-      <div className='flex flex-col w-[23rem] bg-primary-foreground p-6 rounded-md'>
+      <div className='flex flex-col w-[23rem] bg-primary-foreground/55 p-6 rounded-md'>
       <h1 className="text-3xl w-full text-center font-bold mb-6">Login</h1>
         <small className="w-full text-center">Dont have an account? <br />
           <Link className="text-purple-600 font-bold underline" href="/authentication/register">

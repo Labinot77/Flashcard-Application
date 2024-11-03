@@ -5,15 +5,17 @@ import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation";
 import { CollectionToUserExtended } from "@/types/types";
 import { IoMdShuffle } from "react-icons/io";
+import { User } from "@prisma/client";
 
 interface Props {
   collection: CollectionToUserExtended;
+  currentUser: User;
   recentTime: string;
   onRandomize: () => void;
 }
 
 
-const FlashcardMisc = ({ collection, recentTime, onRandomize }: Props) => {
+const FlashcardMisc = ({ collection, currentUser ,recentTime, onRandomize }: Props) => {
   const params = useSearchParams();
   const isShuffled = params.get("randomized") === "true";
   const router = useRouter();
@@ -39,7 +41,9 @@ const FlashcardMisc = ({ collection, recentTime, onRandomize }: Props) => {
 
         <div className="flex gap-2 ">
           <DefaultButton pending={false}>Share</DefaultButton> 
-          <DefaultButton pending={false} onClick={() => router.push(`edit/${collection.id}`)}>Edit</DefaultButton>
+          {(collection.userId === currentUser.id && (
+            <DefaultButton pending={false} onClick={() => router.push(`edit/${collection.id}`)}>Edit</DefaultButton>
+            ))}
           <DefaultButton pending={false} className={`${isShuffled ? "bg-card bg-opacity-45 text-card-foreground" : "bg-transparent shadow-none text-foreground"}`} onClick={onRandomize}>
             <IoMdShuffle className="h-9 w-9" />
           </DefaultButton>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Flashcard } from "@prisma/client";
+import { Flashcard, User } from "@prisma/client";
 import { Separator } from "@/components/ui/separator";
 import { getMostRecentDate } from "@/lib/Misc";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -13,9 +13,10 @@ import { CollectionToUserExtended } from "@/types/types";
 interface Props {
   flashcards: Flashcard[];
   collection: CollectionToUserExtended;
+  currentUser: User;
 }
 
-const FlashcardViewer = ({ flashcards, collection }: Props) => {
+const FlashcardViewer = ({ flashcards, collection, currentUser }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [showHint, setShowHint] = useState(false);
@@ -104,7 +105,8 @@ const FlashcardViewer = ({ flashcards, collection }: Props) => {
         <FlashcardMisc   
           onRandomize={randomizeFlashcards}
           recentTime={recentTime} 
-          collection={collection} />
+          collection={collection}
+          currentUser={currentUser} />
       </div>
     </div>
   );
