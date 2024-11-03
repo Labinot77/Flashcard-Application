@@ -6,13 +6,14 @@ export default function HomeLayout({ children,
   children: React.ReactNode;
 }>) {
   return (
-    <ScrollArea className="h-full w-full">
     <main className="mx-auto max-w-7xl h-full flex p-3">
       <Sidebar />
-      <div className="px-4 py-6 w-full">
-      {children}
-      </div>
-    </main>
+
+      <ScrollArea className="h-full w-full">
+        <div className="px-4 py-6 w-full">
+          {children}
+        </div>
     </ScrollArea>
+    </main>
   );
 }

@@ -12,10 +12,10 @@ export default async function Home() {
     >
       <div className="h-full mx-auto max-w-6xl flex flex-col items-center text-center gap-8 ">
         <h1 className="pt-16 text-[4.5rem] font-bold">
-          The new standart for <br /> <span>Quick-Serve</span>
+        The Ultimate Tool for <br /> <span>Quick Learning</span>
         </h1>
         <p className="w-[50%] text-lg">
-          Save thousands in labor costs and delight your customers with Snackpass, the all-in-one platform designed specifically for quick-serve restaurants.
+        Master concepts fast and retain knowledge effortlessly with Q-Flash, the all-in-one platform designed to make studying more efficient and engaging.
         </p>
 
         <DefaultButton pending={false} >

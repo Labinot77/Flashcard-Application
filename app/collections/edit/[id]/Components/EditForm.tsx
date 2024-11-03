@@ -117,10 +117,9 @@ const EditForm = ({ flashcards, collection }: Props) => {
       flashcard.id === id ? { ...flashcard, deleted: true } : flashcard
     );
 
-    await wait(Math.random() * 1000)
-
     form.setValue('flashcards', updatedFlashcards)
-  }
+  };
+  
 // Duplicate error when deleting flashcards and the adding before saving
   return (
     <div className="h-full ">
