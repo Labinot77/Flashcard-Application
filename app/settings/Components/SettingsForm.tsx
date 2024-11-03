@@ -11,10 +11,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
 import { User } from "@prisma/client"
 import { UserValidation } from "@/lib/validations/user"
-import { UpdateUser } from "@/lib/actions/User"
+import { updateUser } from "@/lib/actions/User"
 import { DefaultButton } from "@/components/Buttons/DefaultButton"
 import Image from "next/image"
 import { toast } from "@/hooks/use-toast"
@@ -40,7 +39,7 @@ function SettingsForm({ currentUser }: Props) {
   const { isSubmitting } = form.formState
 
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
-    const res = await UpdateUser(values)
+    const res = await updateUser(values)
 
     toast({
       title: "Success",

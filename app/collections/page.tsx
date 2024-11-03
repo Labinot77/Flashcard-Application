@@ -15,8 +15,8 @@ const page = async () => {
     )
   }
   return (
-    <main className="flex flex-wrap gap-4 h-full">
-        <ScrollArea className="pr-4 h-full w-full">
+    <main className="h-full">
+        <ScrollArea className="pr-4 h-full rounded-md">
          {collections.map((item) => (
           <CollectionBox
             key={item.id}

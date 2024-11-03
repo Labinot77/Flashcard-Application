@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { CollectionToUserExtended } from "@/types/types";
 import { IoMdShuffle } from "react-icons/io";
 import { User } from "@prisma/client";
+import { addToLikesCollection } from "@/lib/actions/Collection";
 
 interface Props {
   collection: CollectionToUserExtended;
@@ -20,6 +21,12 @@ const FlashcardMisc = ({ collection, currentUser ,recentTime, onRandomize }: Pro
   const isShuffled = params.get("randomized") === "true";
   const router = useRouter();
 
+
+  const addToLiked = async () => {
+    await addToLikesCollection(collection.id, currentUser.id)
+    
+    router.refresh()
+  }
   return (
     <>
       <div className="flex justify-between items-center">
@@ -41,6 +48,7 @@ const FlashcardMisc = ({ collection, currentUser ,recentTime, onRandomize }: Pro
 
         <div className="flex gap-2 ">
           <DefaultButton pending={false}>Share</DefaultButton> 
+          <DefaultButton pending={false} onClick={addToLiked}>{collection.likes.includes(currentUser.id) ? "Hearted" : "Heart"}</DefaultButton> 
           {(collection.userId === currentUser.id && (
             <DefaultButton pending={false} onClick={() => router.push(`edit/${collection.id}`)}>Edit</DefaultButton>
             ))}

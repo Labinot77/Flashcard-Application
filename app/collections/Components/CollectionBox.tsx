@@ -69,7 +69,7 @@ const CollectionBox = ({ title, description, flashcards, id, createdAt, updatedA
 
       <CardHeader>
       <CardTitle className="text-2xl">{title}</CardTitle>
-      <CardDescription>{description}</CardDescription>
+      <CardDescription className="">{description}</CardDescription>
       <Separator className="mt-1 mb-1" />
       <div className="flex justify-between">
         <small>Flashcards: {flashcards}</small>

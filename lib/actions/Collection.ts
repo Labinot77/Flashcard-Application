@@ -2,9 +2,7 @@
 
 import { db } from "@/db";
 import { getCurrentSessionUser } from "./User"
-import { NextResponse } from "next/server";
 import { CollectionData } from "@/types/types";
-import { cloneElement } from "react";
 
 export const getCollections = async () => {
   try {
@@ -45,56 +43,25 @@ export const getCollectionById = async (id: string) => {
     throw new Error("getCollectionById", error)
   }
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////
-export const getMostPopularCollections = async (): Promise<CollectionData[]> => {  
+
+export const getMostPopularCollections = async () => {  
   try {
-    const res = await db.collection.findMany({
-      where: {
-        popularity: {
-          gt: 0,
-        },
+    const collection = await db.collection.findMany({
+      include: {
+        flashcards: true,
+        user: true,
       },
-        orderBy: {
-          popularity: "desc",
-        },
-        include: {
-          flashcards: true,
-        },
-        take: 6,
     })
-
-    return res;
+    
+    const filteredCollections = collection
+    .sort((a, b) => b.likes.length - a.likes.length)
+    .slice(0, 6);
+    
+    return filteredCollections;
   } catch (error:any) {
-    throw new Error("getMostPopularCollections", error)
+    throw new Error("getMostPopularCollections", error);
   }
 }
-
-
-export const addToSeenInCollection = async (collectionId: string, userId: string) => {
-  try {
-    const collection = await db.collection.findUnique({
-      where: { id: collectionId },
-      select: { seen: true }
-    })
-
-    if (collection && !collection?.seen?.includes(userId)) {
-      await db.collection.update({
-        where: {
-          id: collectionId,
-        },
-        data: {
-          seen: {
-            push: userId
-          }
-        },
-      })
-    }
-
-  } catch (error: any) {
-    throw new Error("addToSeenInCollection", error)
-  }
-}
-
 
 export const getAllCollectionsSeenByUser = async () => {
   const currentUser = await getCurrentSessionUser();
@@ -128,7 +95,67 @@ export const getAllCollectionsSeenByUser = async () => {
   }
 }
 
-// type CreateCollectionResult = { success: boolean; error?: string };
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const addToSeenInCollection = async (collectionId: string, userId: string) => {
+  try {
+    const collection = await db.collection.findUnique({
+      where: { id: collectionId },
+      select: { seen: true }
+    })
+
+    if (collection && !collection?.seen?.includes(userId)) {
+      await db.collection.update({
+        where: {
+          id: collectionId,
+        },
+        data: {
+          seen: {
+            push: userId
+          }
+        },
+      })
+    }
+
+  } catch (error: any) {
+    throw new Error("addToSeenInCollection", error)
+  }
+}
+
+export const addToLikesCollection = async (collectionId: string, userId: string) => {
+  try {
+    const collection = await db.collection.findUnique({
+      where: { id: collectionId },
+      select: { likes: true }
+    })
+
+    if (collection && !collection.likes.includes(userId)) {
+      await db.collection.update({ 
+        where: { id: collectionId },
+        data: {
+          likes: {
+            push: userId
+          }
+        }
+      })
+    } else {
+      await db.collection.update({
+        where: { id: collectionId },
+        data: {
+          likes: {
+            set: collection?.likes.filter(id => id !== userId) 
+          }
+        }
+      })
+    }
+
+
+  } catch (error: any) {
+    throw new Error("likeCollection", error)
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const createCollection = async (values: CollectionData) => {
   const currentUser = await getCurrentSessionUser()
@@ -162,6 +189,8 @@ export const createCollection = async (values: CollectionData) => {
   }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 export const deleteCollection = async (id: string) => {
   try {
     const collection = await db.collection.delete({
@@ -175,6 +204,8 @@ export const deleteCollection = async (id: string) => {
     throw new Error("deleteCollection", error)
   }
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const updateCollection = async (id: string, title: string, description?: string) => {
   try {

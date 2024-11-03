@@ -6,8 +6,6 @@ import { z } from "zod"
 import { getUserByEmail } from "../User"
 import { db } from "@/db"
 
-
-
 export const register = async (values: z.infer<typeof RegisterValidation>) => {
   const validatedFields = RegisterValidation.safeParse(values)
 

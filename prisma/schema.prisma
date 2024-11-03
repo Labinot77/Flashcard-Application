@@ -33,7 +33,7 @@ model Collection {
   title String
   description String?
 
-  popularity Int @default(0)
+  likes String[] @default([])
   seen String[] @default([])
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)

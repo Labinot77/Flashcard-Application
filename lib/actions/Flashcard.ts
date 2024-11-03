@@ -35,6 +35,8 @@ export const getFlashcards = async (collectionId: string) => {
   }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 export const createFlashcards = async (collectionId: string, question: string, answer: string, hint: string) => {
   try {
     const res = await db.flashcard.create({
@@ -53,6 +55,7 @@ export const createFlashcards = async (collectionId: string, question: string, a
   }
 };
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const updateFlashcard = async (flashcard: any) => {
   try {
@@ -74,6 +77,7 @@ export const updateFlashcard = async (flashcard: any) => {
   }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const deleteFlashcard = async (id: string) => {
   try {

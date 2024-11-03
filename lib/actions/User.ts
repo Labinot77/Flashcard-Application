@@ -72,8 +72,9 @@ export const getCurrentSessionUserData = async () => {
   }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const UpdateUser = async (values: z.infer<typeof UserValidation>) => {
+export const updateUser = async (values: z.infer<typeof UserValidation>) => {
   try {
     const res = await db.user.update({
       where: {

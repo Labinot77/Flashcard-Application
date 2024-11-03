@@ -2,8 +2,12 @@ import { z } from "zod";
 
 export const FlashcardValidation = z.object({
   collectionId: z.string(),
-  title: z.string().min(2),
-  description: z.string().optional(),
+  title: z.string()
+  .min(2, { message: "Description must be at least 5 characters long." })
+  .max(50, { message: "Description cannot exceed 100 characters." }),
+  description: z.string()
+  .max(50, { message: "Description cannot exceed 100 characters." })
+  .optional(),
   flashcards: z.array(
     z.object({
       id: z.string(),
@@ -21,12 +25,4 @@ export const FlashcardValidation = z.object({
     })
   ),
 });
-
-
-export const CollectionValidation = z.object({
-  name: z.string().min(2).max(50),
-  description: z.string().min(2).max(50),
-})
-
-
 

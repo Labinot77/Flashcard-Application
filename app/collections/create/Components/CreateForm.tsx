@@ -10,7 +10,7 @@ import {
   FormItem,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FlashcardValidation } from "@/lib/validations/Collections";
+import { FlashcardValidation } from "@/lib/validations/Collections&Flashcard";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
