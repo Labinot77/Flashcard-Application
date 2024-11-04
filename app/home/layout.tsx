@@ -8,7 +8,6 @@ export default function HomeLayout({ children,
   return (
     <main className="mx-auto max-w-7xl h-full flex p-3">
       <Sidebar />
-
       <ScrollArea className="h-full w-full">
         <div className="px-4 py-6 w-full">
           {children}

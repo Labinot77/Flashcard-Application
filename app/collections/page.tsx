@@ -14,6 +14,7 @@ const page = async () => {
       </main>
     )
   }
+  
   return (
     <main className="h-full">
         <ScrollArea className="pr-4 h-full rounded-md">

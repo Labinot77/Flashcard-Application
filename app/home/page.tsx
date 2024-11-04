@@ -76,7 +76,7 @@ const Page = async () => {
 
 
       <div className='mt-24'>
-        <h1 className='text-3xl leading-none'>Liked Collections</h1>
+        <h1 className='text-3xl leading-none'>Your Likes Collections</h1>
         {likedCollections && likedCollections?.length > 0 ? (
           <div className='grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4'>
             {likedCollections?.map((collection) => (

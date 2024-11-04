@@ -7,6 +7,7 @@ const SecondRouteItem = () => {
   const SecondRoutes = useRoutes2();
   return (
     <>
+    <h1 className="ml-2">Your classes</h1>
     {SecondRoutes.map((item) => (
       <Link
         key={item.href}

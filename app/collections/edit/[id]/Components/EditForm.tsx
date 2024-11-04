@@ -28,6 +28,7 @@ import { useRouter } from "next/navigation";
 import { updateCollection } from "@/lib/actions/Collection";
 import { Card } from "@/components/ui/card";
 import { wait } from "@/lib/Misc";
+import { useState } from "react";
 
 interface Props {
   flashcards: Flashcard[];
@@ -36,6 +37,7 @@ interface Props {
 
 const EditForm = ({ flashcards, collection }: Props) => {
   const router = useRouter();
+  const [flashcardsToDelete, setFlashcardsToDelete] = useState<string[]>([]);
   const form = useForm<z.infer<typeof FlashcardValidation>>({
     resolver: zodResolver(FlashcardValidation),
     defaultValues: {
@@ -56,6 +58,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
   });
   const { isSubmitting } = form.formState;
   const flashcardList = form.watch("flashcards");
+  console.log(flashcardList)
   const addNewFlashcard = () => {
     const newFlashcard = {
       id: `temp-${Date.now()}`,
@@ -72,12 +75,13 @@ const EditForm = ({ flashcards, collection }: Props) => {
     form.setValue("flashcards", [...exisitingFlashcards, newFlashcard]);
   };
 
-  const onSubmit = async (values: z.infer<typeof FlashcardValidation>) => {
-    const exisitingFlashcards = values.flashcards.filter((flashcard) => !flashcard.id.startsWith("temp"))
-    const newFlashcards = values.flashcards.filter((flashcard) => flashcard.id.startsWith("temp") && flashcard.deleted === false) // DONE
-    const flashcardsToDelete = values.flashcards.filter((flashcard) => flashcard.deleted); // DONe
 
+
+  const onSubmit = async (values: z.infer<typeof FlashcardValidation>) => {    
     try {
+      const exisitingFlashcards = values.flashcards.filter((flashcard) => !flashcard.id.startsWith("temp"))
+      const newFlashcards = values.flashcards.filter((flashcard) => flashcard.id.startsWith("temp") && flashcard.deleted === false) // DONE
+
       if (newFlashcards.length > 0) {
         for (const flashcard of newFlashcards) {
           await createFlashcards(flashcard.collectionId!, flashcard.question, flashcard.answer, flashcard.hint!)
@@ -91,9 +95,9 @@ const EditForm = ({ flashcards, collection }: Props) => {
       }
 
       if (flashcardsToDelete.length > 0) {
-        for (const flashcard of flashcardsToDelete) {
-          console.log("Deleting flashcard with id: ", flashcard.id)
-          await deleteFlashcardFromDB(flashcard.id)
+        for (const flashcardId of flashcardsToDelete) {
+          // console.log("Deleting flashcard with id: ", flashcardId)
+          await deleteFlashcardFromDB(flashcardId)
         }
       }
 
@@ -113,9 +117,15 @@ const EditForm = ({ flashcards, collection }: Props) => {
   };
 
   const deleteFlashcard = async (id: string) => {
-    const updatedFlashcards = flashcardList.map((flashcard) =>
-      flashcard.id === id ? { ...flashcard, deleted: true } : flashcard
-    );
+    if (!id.startsWith("temp")) {
+      setFlashcardsToDelete((prev) => [...prev, id])
+    }
+    
+    // const updatedFlashcards = flashcardList.map((flashcard) =>
+    //   flashcard.id === id ? { ...flashcard, deleted: true } : flashcard
+    // );
+
+    const updatedFlashcards = flashcardList.filter(flashcard => flashcard.id !== id);
 
     form.setValue('flashcards', updatedFlashcards)
   };
@@ -171,6 +181,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
                 className="mb-4 p-3 "
               >
                 <div className="flex w-full gap-2">
+                  {flashcard.id}
                   <FormField
                     control={form.control}
                     name={`flashcards.${index}.question`}

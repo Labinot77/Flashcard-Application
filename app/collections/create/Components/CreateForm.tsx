@@ -33,9 +33,9 @@ const CreateForm = () => {
         {
           // Need to use Math.random() to avoid duplicate ids
           id: `temp-${Date.now() + Math.random()}`,
-          question: "Sample question 1",
-          answer: "Sample answer 1",
-          hint: "Sample hint 1",
+          question: "",
+          answer: "",
+          hint: "",
           collectionId: "",
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -54,7 +54,7 @@ const CreateForm = () => {
   });
 
   const { isSubmitting } = form.formState;
-
+  const flashcardList = form.watch("flashcards");
   const addNewFlashcard = () => {
     const newFlashcard = {
       id: `temp-${Date.now()}`,
@@ -71,8 +71,7 @@ const CreateForm = () => {
   };
 
   const deleteFlashcard = async (id: string) => {
-   const flashcards = form.watch('flashcards')
-   const updatedFlashcards = flashcards.filter((flashcard) => flashcard.id !== id)
+   const updatedFlashcards = flashcardList.filter((flashcard) => flashcard.id !== id)
 
    form.setValue('flashcards', updatedFlashcards)
   }
@@ -80,7 +79,7 @@ const CreateForm = () => {
   const onSubmit = async (values: z.infer<typeof FlashcardValidation>) => {
     console.log("Form submitted with values:", values);
 
-    if (form.watch("flashcards").length <= 1) {
+    if (flashcardList.length <= 1) {
       toast({
         title: "Cannot create",
         description: "You have to have more than 2 flashcards"
@@ -128,7 +127,7 @@ const CreateForm = () => {
           />
 
           <ScrollArea className="py-2 pr-4 rounded-md mt-2 h-[74vh]">
-            {form.watch("flashcards").map((flashcard, index) => (
+            {flashcardList.map((flashcard, index) => (
               <div key={flashcard.id} className="mb-4 p-2 rounded-lg bg-[#2e3856] bg-opacity-45">
                <div className="flex w-full gap-2">
                   <FormField
@@ -201,7 +200,6 @@ const CreateForm = () => {
             <DefaultButton className="w-full h-14" pending={false} type="button" onClick={addNewFlashcard}>
               Add New Flashcard
             </DefaultButton>
-
             {/* <div ref={ref} className="mb-4"/> */}
           </ScrollArea>
 

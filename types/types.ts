@@ -1,4 +1,4 @@
-import { Collection, Flashcard, User } from "@prisma/client";
+import { Classes, Collection, Flashcard, User } from "@prisma/client";
 
 export type CollectionToUserExtended = Collection & {
   user: User;
@@ -23,3 +23,7 @@ export type CollectionData = {
     updatedAt: Date;
   }[];
 };
+
+export type ClassDataExtended = Classes & {
+  users: User[];
+}

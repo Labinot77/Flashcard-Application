@@ -2,9 +2,12 @@
 
 import { usePathname } from "next/navigation"
 import { useMemo } from "react";
-import { FaCommentDots, FaUsers, FaCog } from 'react-icons/fa';
+import { FaUsers, FaCog } from 'react-icons/fa';
 import { useCollections } from "./useCollections";
-import { IoHomeSharp } from "react-icons/io5";
+import { PiFolderOpenThin } from "react-icons/pi";
+import { AiOutlineHome } from "react-icons/ai";
+import { MdOutlinePeopleAlt } from "react-icons/md";
+import { CiSettings } from "react-icons/ci";
 
 export const useRoutes1 = () => {
   const pathname = usePathname();
@@ -14,13 +17,13 @@ export const useRoutes1 = () => {
     {
       label: "Home",
       href: '/home',
-      icon: IoHomeSharp, 
+      icon: AiOutlineHome, 
       active: pathname === '/home',
     },
     {
-      label: "Collections",
+      label: "Your library",
       href: '/collections',
-      icon: FaCommentDots, 
+      icon: PiFolderOpenThin, 
       active: pathname === '/collections'  || pathname === '/collections/edit' || pathname === "/collections/create" || !!collectionId,
     },
   ], [pathname, collectionId]);
@@ -35,7 +38,7 @@ export const useRoutes2 = () => {
     {
       label: "Classes",
       href: '/classes',
-      icon: FaUsers,
+      icon: MdOutlinePeopleAlt,
       active: pathname === '/classes',
     },
     {
@@ -56,7 +59,7 @@ export const useRoutes3 = () => {
     {
       label: "Settings",
       href: '/settings',
-      icon: FaCog,
+      icon: CiSettings,
       active: pathname === '/settings',
     },
   ], [pathname]);
