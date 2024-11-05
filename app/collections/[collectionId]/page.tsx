@@ -5,14 +5,14 @@ import { getCurrentSessionUser } from "@/lib/actions/User";
 
 interface Props {
   params: { 
-    id: string 
+    collectionId: string 
   };
 }
 
 const page = async ({ params }: Props) => {
-  const { id } = await params
+  const { collectionId } = await params
   const currentUser = await getCurrentSessionUser()
-  const collection = await getCollectionById(id)
+  const collection = await getCollectionById(collectionId)
   const flashcards = collection?.flashcards
   
   if (!collection || !flashcards || !currentUser) {

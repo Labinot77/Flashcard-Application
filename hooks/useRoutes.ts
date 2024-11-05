@@ -31,26 +31,6 @@ export const useRoutes1 = () => {
   return routes;
 };
 
-export const useRoutes2 = () => {
-  const pathname = usePathname();
-
-  const routes = useMemo(() => [
-    {
-      label: "Classes",
-      href: '/classes',
-      icon: MdOutlinePeopleAlt,
-      active: pathname === '/classes',
-    },
-    {
-      label: "Create a Class",
-      href: "#",
-      icon: FaUsers,
-      // active: pathname === '',
-    },
-  ], [pathname]);
-
-  return routes;
-};
 
 export const useRoutes3 = () => {
   const pathname = usePathname();

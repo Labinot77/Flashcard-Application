@@ -57,9 +57,19 @@ export const getCurrentSessionUserData = async () => {
         id: session.user.id
       },
       include: {
-        classes: {
+        classUsers: {
           include: {
-            users: true
+            class: {
+              include: {
+                classUsers: {
+                  include: {
+                    user: true,
+                    class: true,
+                  }
+                }
+              }
+            },
+            user: true
           }
         },
         collections: {

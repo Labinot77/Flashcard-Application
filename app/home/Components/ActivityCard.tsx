@@ -3,19 +3,26 @@
 import { DefaultButton } from '@/components/Buttons/DefaultButton'
 import { Card } from '@/components/ui/card'
 import { wait } from '@/lib/Misc'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 interface Props {
-  btnText: string
+  btnText: string,
+  href?: string
 }
 
-const ActivityCard = ({ btnText }: Props) => {
+const ActivityCard = ({ btnText, href }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
+  const router = useRouter();
   const onSubmit = async () => {
     setIsLoading(true)
 
-    await wait(2000)
+    await wait(Math.random() * 1000)
+
+    if (href) {
+    router.push(href)
+    };
 
     setIsLoading(false)
 
@@ -32,7 +39,9 @@ const ActivityCard = ({ btnText }: Props) => {
 
       </div>
       <div className='flex justify-end'>
-        <DefaultButton pending={isLoading} onClick={onSubmit} className=''>{btnText}</DefaultButton>
+        <DefaultButton pending={isLoading} onClick={onSubmit} className=''>
+          {btnText}
+          </DefaultButton>
       </div>
     </Card>
   )

@@ -27,7 +27,6 @@ import { DefaultInput } from "@/components/Inputs/DefaultInput";
 import { useRouter } from "next/navigation";
 import { updateCollection } from "@/lib/actions/Collection";
 import { Card } from "@/components/ui/card";
-import { wait } from "@/lib/Misc";
 import { useState } from "react";
 
 interface Props {
@@ -56,6 +55,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
       })),
     },
   });
+
   const { isSubmitting } = form.formState;
   const flashcardList = form.watch("flashcards");
   console.log(flashcardList)
@@ -74,8 +74,6 @@ const EditForm = ({ flashcards, collection }: Props) => {
     const exisitingFlashcards = form.getValues("flashcards");
     form.setValue("flashcards", [...exisitingFlashcards, newFlashcard]);
   };
-
-
 
   const onSubmit = async (values: z.infer<typeof FlashcardValidation>) => {    
     try {
@@ -96,7 +94,6 @@ const EditForm = ({ flashcards, collection }: Props) => {
 
       if (flashcardsToDelete.length > 0) {
         for (const flashcardId of flashcardsToDelete) {
-          // console.log("Deleting flashcard with id: ", flashcardId)
           await deleteFlashcardFromDB(flashcardId)
         }
       }
@@ -130,7 +127,6 @@ const EditForm = ({ flashcards, collection }: Props) => {
     form.setValue('flashcards', updatedFlashcards)
   };
   
-// Duplicate error when deleting flashcards and the adding before saving
   return (
     <div className="h-full ">
       <Form {...form}>
@@ -181,7 +177,6 @@ const EditForm = ({ flashcards, collection }: Props) => {
                 className="mb-4 p-3 "
               >
                 <div className="flex w-full gap-2">
-                  {flashcard.id}
                   <FormField
                     control={form.control}
                     name={`flashcards.${index}.question`}

@@ -8,26 +8,31 @@ generator client {
 }
  
 model User {
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  id            String           @id @default(auto()) @map("_id") @db.ObjectId
   name          String
-  email         String         @unique
+  email         String           @unique
   password      String
   emailVerified DateTime?
-  image         String?         @default("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png")
+  image         String?          @default("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png")
+
+  collections   Collection[]
+  
+  // Explicitly defining the many-to-many relationship via the join model ClassUser
+  classUsers    ClassUser[]
+
+  createdClasses Classes[]       @relation("UserCreatedClasses")
+
+  messages      Message[] 
+
   accounts      Account[]
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
 
-  collections Collection[]
 
-  classesIds String[] @db.ObjectId
-  classes Classes[] @relation(fields: [classesIds], references: [id])
- 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 }
-
 // Made to keep all the flashcard data in one place. For example one collection can keep data for multiple flashcards. One collection can have as many flashcards as you want. The collection has to have a relation with the user.
 model Collection {
   id String @id @default(auto()) @map("_id") @db.ObjectId
@@ -61,17 +66,58 @@ model Flashcard {
 
 // Each class will have a creator which will be the user who created the class. The class can have many users who are enrolled in the class. 
 model Classes {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  description String?
+  id            String           @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String?
 
-  userIds String[] @db.ObjectId
-  users User[] @relation(fields: [userIds], references: [id])
+  creatorId     String           @db.ObjectId
+  creator       User             @relation("UserCreatedClasses", fields: [creatorId], references: [id])
 
-  lastMessageAt DateTime @default(now())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  // Explicitly defining the many-to-many relationship via the join model ClassUser
+  classUsers    ClassUser[]
+
+  conversations Conversation?
+
+  lastMessageAt DateTime         @default(now())
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 }
+
+model ClassUser {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  classId    String   @db.ObjectId
+  userId     String   @db.ObjectId
+
+  class      Classes  @relation(fields: [classId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([classId, userId])  // Ensures that each user can join a class only once
+}
+// To be done
+model Conversation {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  class Classes @relation(fields: [classId], references: [id])
+  classId String @db.ObjectId @unique
+
+  messages Message[]
+}
+
+model Message {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  content String
+  createdAt DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId String @db.ObjectId
+
+  sender User @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  senderId String @db.ObjectId
+}
+
 
  
 model Account {

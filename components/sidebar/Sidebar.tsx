@@ -4,14 +4,14 @@ import { Separator } from "../ui/separator";
 import FirstRouteItem from "./Routes/FirstRouteItem";
 import SecondRouteItem from "./Routes/SecondRouteItem";
 import ThirdRouteItem from "./Routes/ThirdRouteItem";
-import { getCurrentSessionUser } from "@/lib/actions/User";
+import { getCurrentSessionUser, getCurrentSessionUserData } from "@/lib/actions/User";
 import UserInterface from "./UserInterface";
-import { redirect } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 
 const Sidebar = async () => {
-  const currentUser = await getCurrentSessionUser();
-
-  if (!currentUser) {
+  const currentUser = await getCurrentSessionUserData();
+  const userClasses = currentUser?.classUsers;
+  if (!currentUser?.id) {
     redirect("/authentication/register")
   }
 
@@ -35,7 +35,7 @@ const Sidebar = async () => {
 
             <FirstRouteItem />
             <Separator className="mt-4 mb-4" />
-            <SecondRouteItem />
+            <SecondRouteItem userClasses={userClasses!} />
             <Separator className="mt-4 mb-4" />
             <ThirdRouteItem />
           </ul>

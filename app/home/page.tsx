@@ -14,7 +14,7 @@ const Page = async () => {
 
 
   // These are the collections for the current user, we dont want that
-  const classes = currentUserData?.classes;
+  const classes = currentUserData?.classUsers;
 
   const mostPopularCollections = await getMostPopularCollections();
 
@@ -62,15 +62,18 @@ const Page = async () => {
             <h2>
               <strong>Class ID:</strong> {classItem.id}
             </h2>
-          </div>
+            <p>{classItem.class.title}</p>
+            <p>{classItem.class.description}</p>
+            <p>{classItem.class.creatorId}</p>
+        </div>
         ))}
       </div>
 
       <div className='mt-24'>
         <h1 className='text-3xl'>Activities</h1>
         <div className='grid grid-col-1 lg:grid-cols-2 gap-4 mt-4'>
-          <ActivityCard btnText='Create Collection' />
-          <ActivityCard btnText='Create Class' />
+          <ActivityCard btnText='Create Collection' href='/collections/create' />
+          <ActivityCard btnText='Create Class'/>
         </div>
       </div>
 

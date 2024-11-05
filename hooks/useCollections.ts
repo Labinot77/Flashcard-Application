@@ -5,10 +5,10 @@ export const useCollections = () => {
   const params = useParams();
 
   const collectionId = useMemo(() => {
-    if (!params.id) return "";
+    if (!params.collectionId) return "";
 
-    return params.id as string;
-  }, [params?.id])
+    return params.collectionId as string;
+  }, [params?.collectionId])
 
   return useMemo(() => ({
     collectionId,

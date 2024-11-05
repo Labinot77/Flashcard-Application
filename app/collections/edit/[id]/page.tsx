@@ -1,4 +1,4 @@
-import { getCollectionById, getCollections } from "@/lib/actions/Collection";
+import { getCollectionById } from "@/lib/actions/Collection";
 import EditForm from "./Components/EditForm";
 
 interface Props {
