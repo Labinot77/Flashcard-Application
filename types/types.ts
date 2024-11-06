@@ -31,6 +31,7 @@ export type ClassUserExtended = ClassUser & {
 
 export type ClassDataExtended = Classes & {
   users: User[]; // List of users enrolled in the class
+  classUsers: ClassUserExtended[];
 };
 
 export type UserClassesExtended = ClassUserExtended & {

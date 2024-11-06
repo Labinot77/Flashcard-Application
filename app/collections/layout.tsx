@@ -1,3 +1,4 @@
+import MobileSidebar from "@/components/sidebar/MobileSidebar";
 import Sidebar from "@/components/sidebar/Sidebar";
 
 export default function CollectionsLayout({ children,
@@ -7,6 +8,7 @@ export default function CollectionsLayout({ children,
   return (
     <main className="mx-auto max-w-7xl h-full flex p-3">
       <Sidebar />
+      <MobileSidebar />
       <div className="px-4 py-6 w-full">
       {children}
       </div>

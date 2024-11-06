@@ -71,9 +71,8 @@ const Page = async () => {
 
       <div className='mt-24'>
         <h1 className='text-3xl'>Activities</h1>
-        <div className='grid grid-col-1 lg:grid-cols-2 gap-4 mt-4'>
+        <div className='grid grid-col-1 gap-4 mt-4'>
           <ActivityCard btnText='Create Collection' href='/collections/create' />
-          <ActivityCard btnText='Create Class'/>
         </div>
       </div>
 

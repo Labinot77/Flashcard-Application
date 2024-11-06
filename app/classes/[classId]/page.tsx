@@ -1,6 +1,7 @@
 import { getClassbyId } from "@/lib/actions/Classes";
 import { DotsHorizontalIcon} from "@radix-ui/react-icons";
 import Image from "next/image";
+import Header from "./Components/Header";
 
 interface Props {
   params: {
@@ -20,31 +21,10 @@ const dynamicPage = async ({ params }: Props) => {
       </main>
     );
   }
-
   return (
     <div className="p-4">
-      <div className="flex justify-between">
-        <div className="flex flex-col">
-        <h1 className="text-3xl">{currentClass.title}</h1>
-        <span>{currentClass.description}</span>
-        </div>
-        <DotsHorizontalIcon className="h-7 w-7 mr-2 text-gray-500" />
-      </div>
+        <Header currentClass={currentClass} />
 
-
-      <div className="flex mb-4 mt-4">
-        {currentClass.classUsers.map((user) => (
-        <Image
-        src={user.user.image as string}
-        alt="user"
-        width={30}
-        height={30}
-        className="rounded-full"
-      />
-      ))}
-
-
-      </div>
 
       <div className="bg-black h-[70vh] rounded-lg p-4 w-full">Chat</div>
 

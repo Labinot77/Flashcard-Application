@@ -26,3 +26,21 @@ export const getClassbyId = async (id: string) => {
     console.log("Error in getClassbyId:", error);
   }
 }
+
+// export const getClassbyId = async (id: string) => {
+//   try {
+//     const classData = await db.classUser.({
+//       where: {
+//         classId: id,
+//       },
+//       include: {
+//         class: true,
+//         user: true
+//       },
+//     })
+
+//     return classData
+//   } catch (error: any) {
+//     console.log("Error in getClassbyId:", error);
+//   }
+// }
