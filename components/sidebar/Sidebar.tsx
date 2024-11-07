@@ -4,7 +4,7 @@ import { Separator } from "../ui/separator";
 import FirstRouteItem from "./Routes/FirstRouteItem";
 import SecondRouteItem from "./Routes/SecondRouteItem";
 import ThirdRouteItem from "./Routes/ThirdRouteItem";
-import { getCurrentSessionUserData } from "@/lib/actions/User";
+import { getAllUsers, getCurrentSessionUserData } from "@/lib/actions/User";
 import UserInterface from "./UserInterface";
 import { redirect } from "next/navigation";
 
@@ -14,6 +14,7 @@ const Sidebar = async () => {
   if (!currentUser?.id) {
     redirect("/authentication/register")
   }
+  const AllUsers = await getAllUsers();
 
   return (
  <aside className='hidden lg:block h-full rounded-md min-w-[17rem] '>
@@ -34,7 +35,7 @@ const Sidebar = async () => {
           <ul className="mt-5">
             <FirstRouteItem />
             <Separator className="mt-4 mb-4" />
-            <SecondRouteItem userClasses={userClasses!} />
+            <SecondRouteItem currentUser={currentUser} users={AllUsers!} />
             <Separator className="mt-4 mb-4" />
             <ThirdRouteItem />
           </ul>

@@ -53,7 +53,6 @@ function SettingsForm({ currentUser }: Props) {
     const newImageURL = "https://i.pinimg.com/736x/a3/31/a8/a331a8d0a8ff50827c6cb3437f336a30.jpg"
     form.setValue("image", newImageURL)
 
-    console.log("ASDas")
   }
 
   return (

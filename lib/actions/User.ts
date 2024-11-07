@@ -6,6 +6,16 @@ import { NextResponse } from "next/server"
 import { UserValidation } from "../validations/user"
 import { z } from "zod"
 
+export const getAllUsers = async () => {
+  try {
+    const users = await db.user.findMany()
+
+    return users
+  } catch (error: any) {
+    throw new NextResponse("getAllUsers", error)
+  }
+}
+
 export const getUserByEmail = async (email: string) => {
   try {
     const user = await db.user.findUnique({

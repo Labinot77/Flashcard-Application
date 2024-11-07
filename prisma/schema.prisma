@@ -88,8 +88,8 @@ model ClassUser {
   classId    String   @db.ObjectId
   userId     String   @db.ObjectId
 
-  class      Classes  @relation(fields: [classId], references: [id])
-  user       User     @relation(fields: [userId], references: [id])
+  class      Classes  @relation(fields: [classId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

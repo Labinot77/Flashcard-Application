@@ -7,7 +7,7 @@ interface Props {
 
 const CardWrapper = ({ children, className}: Props) => {
   return (
-    <main className={`${className} p-1 rounded-md bg-neutral-300`}>
+    <main className={`${className} p-1 rounded-md`}>
       {children}
     </main>
   )

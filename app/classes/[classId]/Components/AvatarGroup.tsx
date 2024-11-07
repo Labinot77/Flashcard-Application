@@ -12,14 +12,13 @@ const AvatarGroup = ({ users }: Props) => {
   const remainingUsersCount = users.length - 3;
 
   const positionMap = {
-    0: "left-0",
-    1: "left-[18px]",
-    2: "left-[36px]", 
+    0: "z-10 left-0",
+    1: "z-20 left-[18px]",
+    2: "z-30 left-[36px]", 
   };
 
   return (
     <div className="flex items-center">
-      {/* Display the sliced users */}
       <div className="relative w-16 h-8 mb-4 mt-4 flex">
         {slicedUsers?.map((user, index) => (
           <div
@@ -36,7 +35,6 @@ const AvatarGroup = ({ users }: Props) => {
           </div>
         ))}
 
-        
       </div>
 
       {remainingUsersCount > 0 && (

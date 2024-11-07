@@ -84,7 +84,7 @@ const FlashcardViewer = ({ flashcards, collection, currentUser }: Props) => {
   return (
     <div className="flex flex-col">
       <h1 className="font-semibold text-4xl">{collection.title}</h1>
-      <div className="w-[90%]">
+      <div className="w-full lg:w-[90%]">
         <FlashcardComponent
           showAnswer={showAnswer}
           showHint={showHint}

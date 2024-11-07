@@ -2,7 +2,7 @@
 
 import { db } from "@/db"
 import { getCurrentSessionUser } from "./User"
-import { NextResponse } from "next/server";
+import { Classes } from "@prisma/client";
 
 export const getClassbyId = async (id: string) => {
   try {
@@ -18,7 +18,7 @@ export const getClassbyId = async (id: string) => {
           }
         },
         creator: true,
-      }, 
+      },
     })
 
     return classData
@@ -27,20 +27,54 @@ export const getClassbyId = async (id: string) => {
   }
 }
 
-// export const getClassbyId = async (id: string) => {
-//   try {
-//     const classData = await db.classUser.({
-//       where: {
-//         classId: id,
-//       },
-//       include: {
-//         class: true,
-//         user: true
-//       },
-//     })
+export const createClass = async (
+  userId: string,
+  members: string[], // Array of user ids
+  title: string,
+  description: string
+) => {
+  try {
+    const currentUser = await getCurrentSessionUser();
+    if (!currentUser?.id) {
+      throw new Error("Unauthorized");
+    }
 
-//     return classData
-//   } catch (error: any) {
-//     console.log("Error in getClassbyId:", error);
-//   }
-// }
+    if (!title || members.length < 2) {
+      throw new Error("Invalid Data: Title is required and at least two members must be selected");
+    }
+
+    
+    // Creating the class
+    const newClass: Classes = await db.classes.create({
+      data: {
+        title,
+        description,
+        creatorId: userId,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+
+
+    // Create the class-user relationships in the database
+    await db.classUser.createMany({
+      // Adding the creator to the class
+      data: [
+        {
+          classId: newClass.id,
+          userId: userId
+        },
+        // Adding the other members to the class
+        ...members.map((member: string) => ({
+          classId: newClass.id,
+          userId: member,
+        }))],
+    });
+
+    return { classId: newClass.id, title: newClass.title };
+
+  } catch (error: any) {
+    console.error("Error creating class:", error.message);
+    throw new Error(error.message || "Internal Server Error");
+  }
+};

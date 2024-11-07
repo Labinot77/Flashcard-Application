@@ -26,9 +26,9 @@ const CreateForm = () => {
   const form = useForm<z.infer<typeof FlashcardValidation>>({
     resolver: zodResolver(FlashcardValidation),
     defaultValues: {
+      collectionId: "",
       title: "",
       description: "",
-      collectionId: "",
       flashcards: [
         {
           // Need to use Math.random() to avoid duplicate ids
@@ -36,7 +36,7 @@ const CreateForm = () => {
           question: "",
           answer: "",
           hint: "",
-          collectionId: "",
+          collectionId: null,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -45,7 +45,7 @@ const CreateForm = () => {
           question: "",
           answer: "",
           hint: "",
-          collectionId: "",
+          collectionId: null,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -61,7 +61,7 @@ const CreateForm = () => {
       question: "",
       answer: "",
       hint: "",
-      collectionId: "",
+      collectionId: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -76,9 +76,7 @@ const CreateForm = () => {
    form.setValue('flashcards', updatedFlashcards)
   }
 
-  const onSubmit = async (values: z.infer<typeof FlashcardValidation>) => {
-    console.log("Form submitted with values:", values);
-
+  const onSubmit = async (values: any) => {
     if (flashcardList.length <= 1) {
       toast({
         title: "Cannot create",
@@ -92,14 +90,15 @@ const CreateForm = () => {
           title: "Collection Created",
           description: `Your collection has been created with ${res.flashcards.length} flashcards` ,
         })
-        router.push("/collections")
+        router.push(`/collections/${res.id}`)
       }
     }
   };
 
   return (
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="h-full">
+       <form onSubmit={form.handleSubmit(onSubmit)} className="h-full">
+
           <FormField
             control={form.control}
             name="title"

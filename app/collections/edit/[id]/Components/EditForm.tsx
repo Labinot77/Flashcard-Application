@@ -51,14 +51,12 @@ const EditForm = ({ flashcards, collection }: Props) => {
         collectionId: collection.id,
         updatedAt: flashcard.updatedAt,
         createdAt: flashcard.createdAt,
-        deleted: false,
       })),
     },
   });
 
   const { isSubmitting } = form.formState;
   const flashcardList = form.watch("flashcards");
-  console.log(flashcardList)
   const addNewFlashcard = () => {
     const newFlashcard = {
       id: `temp-${Date.now()}`,
@@ -68,7 +66,6 @@ const EditForm = ({ flashcards, collection }: Props) => {
       collectionId: collection.id,
       createdAt: new Date(),
       updatedAt: new Date(),
-      deleted: false,
     };
 
     const exisitingFlashcards = form.getValues("flashcards");
@@ -78,7 +75,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
   const onSubmit = async (values: z.infer<typeof FlashcardValidation>) => {    
     try {
       const exisitingFlashcards = values.flashcards.filter((flashcard) => !flashcard.id.startsWith("temp"))
-      const newFlashcards = values.flashcards.filter((flashcard) => flashcard.id.startsWith("temp") && flashcard.deleted === false) // DONE
+      const newFlashcards = values.flashcards.filter((flashcard) => flashcard.id.startsWith("temp")) // DONE
 
       if (newFlashcards.length > 0) {
         for (const flashcard of newFlashcards) {
@@ -100,7 +97,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
 
       await updateCollection(values.collectionId, values.title, values.description)
 
-      router.refresh()
+      router.push(`/collections/${values.collectionId}`)
       toast({
         title: "Collection Updated",
         description: "Your collection has been updated successfully!",
@@ -171,7 +168,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
           />
 
           <ScrollArea className="py-2 pr-4 rounded-md mt-2 h-[74vh]">
-            {flashcardList.filter(flashcard => !flashcard.deleted).map((flashcard, index) => (
+            {flashcardList.map((flashcard, index) => (
               <Card
                 key={flashcard.id}
                 className="mb-4 p-3 "

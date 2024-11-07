@@ -7,12 +7,13 @@ export type CollectionToUserExtended = Collection & {
 export type CollectionData = {
   title: string;
   description?: string | null;
+  collectionId?: string | null;
   // seen: string[];
-  popularity: number;
+  // popularity: number;
   // userId: string;
   // createdAt: Date;
   // updatedAt: Date;
-  id: string;
+  // id: string;
   flashcards: {
     id: string;
     collectionId: string | null;
@@ -34,6 +35,10 @@ export type ClassDataExtended = Classes & {
   classUsers: ClassUserExtended[];
 };
 
-export type UserClassesExtended = ClassUserExtended & {
+export type UserDataExtendedToClassDataExtended = User & {
+  classUsers: ClassUserExtended[];
+}
+
+export type ClassDataExtendedUserClassesExtended = ClassUserExtended & {
   class: Classes; // Class related to this class user
 };

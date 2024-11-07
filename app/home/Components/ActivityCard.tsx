@@ -3,7 +3,6 @@
 import { DefaultButton } from '@/components/Buttons/DefaultButton'
 import { Card } from '@/components/ui/card'
 import { wait } from '@/lib/Misc'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 

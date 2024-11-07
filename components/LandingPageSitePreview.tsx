@@ -1,6 +1,6 @@
 "use client"
 
-import { useRoutes1, useRoutes2, useRoutes3 } from '@/hooks/useRoutes';
+import { useRoutes1, useRoutes3 } from '@/hooks/useRoutes';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
@@ -9,7 +9,6 @@ import { DefaultButton } from './Buttons/DefaultButton';
 
 const LandingPageSitePreview = () => {
   const FirstRoutes = useRoutes1();
-  const SecondRoutes = useRoutes2();
   const ThirdRoutes = useRoutes3();
 
   return (
@@ -43,17 +42,7 @@ const LandingPageSitePreview = () => {
 
 
               <Separator className="mt-4 mb-4" />
-              {SecondRoutes.map((item) => (
-                <Link
-                  key={item.href}
-                  href=''
-                  className="flex items-center gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold text-gray-500 hover:bg-gray-100 hover:text-black"
-                >
-                  <item.icon className="h-6 w-6 shrink-0" />
-                  <span className=''>{item.label}</span>
-                </Link>
-              ))}
-
+             
               <Separator className="mt-4 mb-4" />
 
               {ThirdRoutes.map((item) => (

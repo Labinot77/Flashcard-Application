@@ -190,14 +190,14 @@ export const addToLikesCollection = async (collectionId: string, userId: string)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const createCollection = async (values: CollectionData) => {
-  const currentUser = await getCurrentSessionUser()
-
-  if (!currentUser?.id) {
-    return false
-  }
-
+export const createCollection = async (values: CollectionData) => {  
   try {
+    const currentUser = await getCurrentSessionUser();
+  
+    if (!currentUser?.id) {
+      return false
+    };
+
     const res = await db.collection.create({
       data: {
         title: values.title,
@@ -211,6 +211,7 @@ export const createCollection = async (values: CollectionData) => {
           }))
         }
       },
+      // Using include to get the flashcards lenght so I can show it in the toast
       include: {
         flashcards: true,
       },
