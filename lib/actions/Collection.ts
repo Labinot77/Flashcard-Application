@@ -35,6 +35,7 @@ export const getCollectionById = async (id: string) => {
       include: {
         flashcards: true,
         user: true,
+        
       }
     })
     

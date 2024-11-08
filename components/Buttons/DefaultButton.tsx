@@ -6,14 +6,15 @@ import { Button } from '../ui/button';
 import { CgSpinner } from 'react-icons/cg';
 
 interface Props {
-  className?: string
-  onClick?: () => void
-  pending: boolean
-  type?: "submit" | "button" | "reset" | undefined
+  className?: string;
+  onClick?: () => void;
+  pending: boolean;
+  type?: "submit" | "button" | "reset" | undefined;
+  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | null | undefined;
   children: React.ReactNode;
 }
 
-export const DefaultButton = ({ className, onClick, children, pending, type = "submit" }: Props) => {
+export const DefaultButton = ({ className, onClick, children, pending, variant = "default", type = "submit" }: Props) => {
   return (
     <>
     {pending ? (
@@ -26,6 +27,7 @@ export const DefaultButton = ({ className, onClick, children, pending, type = "s
     ) : (
       <Button
       type={type}
+      variant={variant}
       className={`${className}`}
       onClick={onClick}
       >

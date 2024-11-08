@@ -4,9 +4,9 @@ import FlashcardSessionForm from "./Components/FlashcardSessionForm";
 import { getCurrentSessionUser } from "@/lib/actions/User";
 
 interface Props {
-  params: { 
+  params: Promise<{ 
     collectionId: string 
-  };
+  }>;
 }
 
 const page = async ({ params }: Props) => {

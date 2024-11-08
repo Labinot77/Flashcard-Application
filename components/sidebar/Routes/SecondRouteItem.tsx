@@ -26,6 +26,9 @@ const SecondRouteItem = ({ users, currentUser }: Props) => {
           <ScrollArea className="w-full pr-4 overflow-y-auto max-h-[11rem]">
           {userClasses.map((item) => {
             const activeLink = (classId === item.class.id ? "bg-secondary-foreground/30" : "");
+            const slicedTitle = item.class.title.length > 17
+            ? `${item.class.title.slice(0, 17)}...`
+            : `${item.class.title}`;
 
             return (
               <Link
@@ -34,7 +37,7 @@ const SecondRouteItem = ({ users, currentUser }: Props) => {
                 className={`${activeLink} flex items-center gap-x-3 rounded-md p-3 mt-2 leading-6 font-semibold text-gray-500 hover:bg-gray-100 hover:bg-secondary-foreground/40`}
               >
                 <FaUsers size={24} />
-                <span>{item.class.title}</span>
+                <span>{slicedTitle}</span>
               </Link>
             );
           })}

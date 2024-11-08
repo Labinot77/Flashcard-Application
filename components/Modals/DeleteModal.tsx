@@ -1,11 +1,28 @@
-import React from 'react'
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
-import { Button } from '../ui/button'
+"use client"
 
-const DeleteModal = () => {
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
+import { DefaultButton } from '../Buttons/DefaultButton'
+import { useState, useTransition } from 'react'
+import { wait } from '@/lib/Misc'
+import { deleteCollection } from '@/lib/actions/Collection'
+import { useRouter } from 'next/navigation'
+
+interface Props {
+  id: string;
+  children: React.ReactNode;
+}
+
+const DeleteModal = ({ children, id }: Props) => {
+  const router = useRouter();
+  const [open, setIsOpen] = useState(false);
+  const [isLoading, startTransition] = useTransition();
   return (
-    <Dialog>
-    <DialogTrigger>Open</DialogTrigger>
+    <Dialog open={open} onOpenChange={(prev) => setIsOpen(prev)}>
+    <DialogTrigger asChild>
+      <div>
+    {children}
+        </div> 
+    </DialogTrigger>
     <DialogContent>
     <DialogHeader>
       <DialogTitle>Are you absolutely sure?</DialogTitle>
@@ -14,12 +31,19 @@ const DeleteModal = () => {
         and remove your data from our servers.
       </DialogDescription>
     </DialogHeader>
-    <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Close
-            </Button>
-          </DialogClose>
+    <DialogFooter className="justify-start">
+            <DefaultButton 
+            variant="destructive"
+            pending={isLoading} 
+            onClick={() => {
+              startTransition(async () => {
+                await deleteCollection(id)
+                setIsOpen(false)
+                router.refresh()
+              })
+            }}  type="button">
+              Delete
+            </DefaultButton>
         </DialogFooter>
   </DialogContent>
 </Dialog>

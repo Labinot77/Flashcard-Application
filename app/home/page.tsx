@@ -9,6 +9,7 @@ import CreateClassCard from './Components/CreateClassCard';
 import { auth } from '@/auth';
 import CardWrapper from '@/components/Card/CardWrapper';
 import { FaUsers } from 'react-icons/fa';
+import DeleteModal from '@/components/Modals/DeleteModal';
 
 const Page = async () => {
 
@@ -19,7 +20,7 @@ const Page = async () => {
 
 
   // These are the collections for the current user, we dont want that
-  const classes = currentUserData?.classUsers;
+  const classes = currentUserData?.classUsers.slice(0, 6);
   const allUsers = await getAllUsers();
 
   const mostPopularCollections = await getMostPopularCollections();
@@ -60,7 +61,6 @@ const Page = async () => {
           </div>
         )}
       </div>
-
       <div className='mt-14'>
         <h1 className='text-3xl'>Classes</h1>
         <div className='grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4'>

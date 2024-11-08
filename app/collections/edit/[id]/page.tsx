@@ -2,9 +2,9 @@ import { getCollectionById } from "@/lib/actions/Collection";
 import EditForm from "./Components/EditForm";
 
 interface Props {
-  params: {
+  params: Promise<{
     id: string
-  };
+  }>;
 }
 
 const page = async ({ params }: Props) => {

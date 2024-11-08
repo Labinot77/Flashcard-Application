@@ -16,6 +16,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import DeleteModal from "@/components/Modals/DeleteModal";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   title: string;
@@ -61,9 +63,16 @@ const CollectionBox = ({ title, description, flashcards, id, createdAt, updatedA
           <DefaultButton className="bg-orange-400 w-full" type="button" pending={isLoading.edit} onClick={() => handleButton("edit", `/collections/edit/${id}`)} >
             <MdEdit className="h-6 w-6 text-white" />
           </DefaultButton>
-          <DefaultButton className="bg-red-700" pending={isLoading.delete} type="button" onClick={() => handleButton("delete", id)} >
+          <DeleteModal id={id}>
+          {/* <DefaultButton className="bg-red-700" pending={isLoading.delete} type="button" onClick={() => handleButton("delete", id)} >
+            <MdDelete className="h-6 w-6 text-white" />
+          </DefaultButton> */}
+          <DefaultButton className="bg-red-700" pending={false} >
             <MdDelete className="h-6 w-6 text-white" />
           </DefaultButton>
+        
+        
+          </DeleteModal>
         </div>
       </div>
 

@@ -26,11 +26,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { createClass } from "@/lib/actions/Classes";
 import { ClassCreationValidation } from "@/lib/validations/Class";
+import { DefaultButton } from "../Buttons/DefaultButton";
 
 interface Props {
   users: User[];
@@ -41,6 +42,7 @@ interface Props {
 const CreateClassModal = ({ currentUser, users, children }: Props) => {
   const router = useRouter();
   const [search , setSearch] = useState<string>("");
+  const [isDisabled, startTranstion] = useTransition();
   const [open, setIsOpen] = useState(false);
   const form = useForm<z.infer<typeof ClassCreationValidation>>({
     resolver: zodResolver(ClassCreationValidation),
@@ -51,6 +53,7 @@ const CreateClassModal = ({ currentUser, users, children }: Props) => {
     },
   });
 
+  const { isSubmitting } = form.formState;
   console.log(currentUser)
 
   const filteredUsers = useMemo(
@@ -124,7 +127,7 @@ const CreateClassModal = ({ currentUser, users, children }: Props) => {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>Description (optional)</FormLabel>
                     <FormControl>
                       <DefaultInput {...field} placeholder="Description" />
                     </FormControl>
@@ -140,13 +143,10 @@ const CreateClassModal = ({ currentUser, users, children }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Select Users</FormLabel>
-                    
-                    <Input
-                      formNoValidate
+                    <DefaultInput
                       placeholder="Search users..."
                       value={search}
                       onChange={e => setSearch(e.target.value)}
-                      className="mb-10"
                     />
 
                     <ScrollArea className="py-2 pr-4 overflow-y-auto max-h-[14vh]">
@@ -189,9 +189,9 @@ const CreateClassModal = ({ currentUser, users, children }: Props) => {
 
               {/* Submit Button */}
               <DialogFooter>
-                <Button type="submit" variant="secondary">
+                <DefaultButton pending={isSubmitting} type="submit">
                   Create a Class
-                </Button>
+                </DefaultButton>
               </DialogFooter>
             </form>
           </Form>
