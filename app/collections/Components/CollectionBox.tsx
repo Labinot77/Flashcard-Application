@@ -34,19 +34,19 @@ const CollectionBox = ({ title, description, flashcards, id, createdAt, updatedA
   const [isLoading, setIsLoading] = useState({
     view: false,
     edit: false,
-    delete: false,
+    // delete: false,
   });
 
   const handleButton = async (action: string, id: string) => {
     setIsLoading((prev) => ({ ...prev, [action]: true }))
     await wait(Math.random() * 1000)
 
-    if (action === "delete") {
-      await deleteCollection(id)
-      router.refresh()
-    } else {
+    // if (action === "delete") {
+    //   await deleteCollection(id)
+    //   router.refresh()
+    // } else {
       router.push(id)
-    }
+    // }
 
     setIsLoading((prev) => ({ ...prev, [action]: false }))
   }
@@ -56,18 +56,18 @@ const CollectionBox = ({ title, description, flashcards, id, createdAt, updatedA
     className="p-3 mb-2"
     >
       <div className="flex gap-2 mb-1">
-        <DefaultButton className="bg-green-700 w-full" type="button" pending={isLoading.view} onClick={() => handleButton("view", `/collections/${id}`)} >
+        <DefaultButton className="bg-green-700 w-full" type="button" disabledText="Loading" pending={isLoading.view} onClick={() => handleButton("view", `/collections/${id}`)} >
           <FaDoorClosed className="h-6 w-6 text-white" />
         </DefaultButton>
         <div className="w-full flex gap-2">
-          <DefaultButton className="bg-orange-400 w-full" type="button" pending={isLoading.edit} onClick={() => handleButton("edit", `/collections/edit/${id}`)} >
+          <DefaultButton className="bg-orange-400 w-full" type="button" disabledText="Loading" pending={isLoading.edit} onClick={() => handleButton("edit", `/collections/edit/${id}`)} >
             <MdEdit className="h-6 w-6 text-white" />
           </DefaultButton>
           <DeleteModal id={id}>
           {/* <DefaultButton className="bg-red-700" pending={isLoading.delete} type="button" onClick={() => handleButton("delete", id)} >
             <MdDelete className="h-6 w-6 text-white" />
           </DefaultButton> */}
-          <DefaultButton className="bg-red-700" pending={false} >
+          <DefaultButton variant="destructive" pending={false} >
             <MdDelete className="h-6 w-6 text-white" />
           </DefaultButton>
         

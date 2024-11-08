@@ -11,10 +11,18 @@ interface Props {
   pending: boolean;
   type?: "submit" | "button" | "reset" | undefined;
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | null | undefined;
+  disabledText?: string;
   children: React.ReactNode;
 }
 
-export const DefaultButton = ({ className, onClick, children, pending, variant = "default", type = "submit" }: Props) => {
+export const DefaultButton = ({ 
+  className, 
+  onClick, 
+  children, 
+  pending, 
+  variant = "default", 
+  type = "submit",
+  disabledText = "Saving" }: Props) => {
   return (
     <>
     {pending ? (
@@ -22,7 +30,9 @@ export const DefaultButton = ({ className, onClick, children, pending, variant =
       disabled
       className={`${className} bg-button`}
       >
-         <CgSpinner className="animate-spin dark:text-white text-black w-10 h-10" />
+        <h1 className='text-black dark:text-white inline-flex items-center justify-center gap-2'>
+          {disabledText} 
+          <CgSpinner className="animate-spin  w-10 h-10" /></h1>
       </Button>
     ) : (
       <Button

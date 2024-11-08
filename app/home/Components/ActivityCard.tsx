@@ -38,7 +38,7 @@ const ActivityCard = ({ btnText, href }: Props) => {
 
       </div>
       <div className='flex justify-end'>
-        <DefaultButton pending={isLoading} onClick={onSubmit} className=''>
+        <DefaultButton disabledText='Creating' pending={isLoading} onClick={onSubmit} className=''>
           {btnText}
           </DefaultButton>
       </div>

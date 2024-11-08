@@ -16,7 +16,7 @@ const FirstRouteItem = () => {
         className={`flex items-center gap-x-3 rounded-md p-3 mt-2 leading-6 font-semibold text-gray-500 hover:bg-gray-100 hover:bg-secondary-foreground/40
           ${item.active ? "bg-secondary-foreground/30 text-black" : ""}`} 
       >
-        <item.icon fillOpacity={10} className="h-7 w-7 text-white shrink-0" />
+        <item.icon size={24} />
         <span className=''>{item.label}</span>
       </Link>
     ))}

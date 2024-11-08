@@ -23,7 +23,7 @@ const SecondRouteItem = ({ users, currentUser }: Props) => {
       {userClasses && userClasses.length > 0 ? (
         <>
           <h1 className="ml-2">Your Classes</h1>
-          <ScrollArea className="w-full pr-4 overflow-y-auto max-h-[11rem]">
+          <ScrollArea className="w-full pr-4 overflow-y-auto max-h-[20vh]">
           {userClasses.map((item) => {
             const activeLink = (classId === item.class.id ? "bg-secondary-foreground/30" : "");
             const slicedTitle = item.class.title.length > 17

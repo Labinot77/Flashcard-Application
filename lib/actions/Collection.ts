@@ -54,13 +54,9 @@ export const getMostPopularCollections = async () => {
       },
     })
     
-    if (!collection) { 
-      return []
-    };
-
     const filteredCollections = collection
     .sort((a, b) => b.likes.length - a.likes.length)
-    .slice(0, 6);
+    .slice(0, 4);
     
     return filteredCollections;
   } catch (error:any) {
@@ -86,13 +82,9 @@ export const getCollectionsLikedByUser = async () => {
       },
     })
 
-    if (!collection) { 
-      return []
-    }
-
       const filteredCollections = collection
       .filter(collection => collection.likes?.includes(currentUser?.id))
-      .slice(0, 6);
+      .slice(0, 4);
       
     return filteredCollections;
   } catch (error: any) {
@@ -121,7 +113,7 @@ export const getAllCollectionsSeenByUser = async () => {
     // Gets the collections that the user has seen and slices them to the first 6
     const collectionsSeenByUser = res.
     filter(collection => collection.seen?.includes(currentUser?.id)
-    ).slice(0, 6);
+    ).slice(0, 4);
 
    return collectionsSeenByUser
   } catch (error: any) {

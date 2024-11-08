@@ -4,6 +4,11 @@ export type CollectionToUserExtended = Collection & {
   user: User;
 };
 
+export type CollectionToUserExtendedData = Collection & {
+  user: User;
+  flashcards: Flashcard[];
+};
+
 export type CollectionData = {
   title: string;
   description?: string | null;

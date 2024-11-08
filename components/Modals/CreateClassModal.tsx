@@ -32,7 +32,20 @@ import { toast } from "@/hooks/use-toast";
 import { createClass } from "@/lib/actions/Classes";
 import { ClassCreationValidation } from "@/lib/validations/Class";
 import { DefaultButton } from "../Buttons/DefaultButton";
-
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Label } from "../ui/label";
+import { cn } from "@/lib/utils";
+import { MdOutlinePeopleAlt } from "react-icons/md";
 interface Props {
   users: User[];
   currentUser: User;
@@ -42,8 +55,9 @@ interface Props {
 const CreateClassModal = ({ currentUser, users, children }: Props) => {
   const router = useRouter();
   const [search , setSearch] = useState<string>("");
-  const [isDisabled, startTranstion] = useTransition();
   const [open, setIsOpen] = useState(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)")
+
   const form = useForm<z.infer<typeof ClassCreationValidation>>({
     resolver: zodResolver(ClassCreationValidation),
     defaultValues: {
@@ -92,6 +106,48 @@ const CreateClassModal = ({ currentUser, users, children }: Props) => {
     }
   };
 
+  if (!isDesktop) {
+    return (
+      <Drawer open={open} onOpenChange={(prev) => setIsOpen(prev)}>
+      <DrawerTrigger asChild>
+          <div className="flex items-center gap-x-3 rounded-md p-3 mt-2 leading-6 font-semibold text-gray-500 hover:bg-gray-100 cursor-pointer hover:bg-secondary-foreground/40">
+          <MdOutlinePeopleAlt className="h-7 w-7 shrink-0" />
+          <span>Create a Class</span>
+        </div>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader className="text-left">
+          <DrawerTitle>Edit profile</DrawerTitle>
+          <DrawerDescription>
+            Make changes to your profile here. Click save when you're done.
+          </DrawerDescription>
+        </DrawerHeader>
+        <ProfileForm className="px-4" />
+        <DrawerFooter className="pt-2">
+          <DrawerClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  )
+}
+ 
+function ProfileForm({ className }: React.ComponentProps<"form">) {
+  return (
+    <form className={cn("grid items-start gap-4", className)}>
+      <div className="grid gap-2">
+        <Label htmlFor="email">Email</Label>
+        <Input type="email" id="email" defaultValue="shadcn@example.com" />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="username">Username</Label>
+        <Input id="username" defaultValue="@shadcn" />
+      </div>
+      <Button type="submit">Save changes</Button>
+    </form>
+  );
+}
 
   return (
     <Dialog open={open} onOpenChange={(prev) => setIsOpen(prev)}>
@@ -106,7 +162,6 @@ const CreateClassModal = ({ currentUser, users, children }: Props) => {
         <div className="flex flex-col space-y-4">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="h-full space-y-4">
-              {/* Title Field */}
               <FormField
                 control={form.control}
                 name="title"
@@ -121,7 +176,6 @@ const CreateClassModal = ({ currentUser, users, children }: Props) => {
                 )}
               />
 
-              {/* Description Field */}
               <FormField
                 control={form.control}
                 name="description"
@@ -136,7 +190,6 @@ const CreateClassModal = ({ currentUser, users, children }: Props) => {
                 )}
               />
 
-              {/* Search and User Selection */}
               <FormField
                 control={form.control}
                 name="classUsers"
@@ -189,7 +242,7 @@ const CreateClassModal = ({ currentUser, users, children }: Props) => {
 
               {/* Submit Button */}
               <DialogFooter>
-                <DefaultButton pending={isSubmitting} type="submit">
+                <DefaultButton disabledText="Creating" pending={isSubmitting} type="submit">
                   Create a Class
                 </DefaultButton>
               </DialogFooter>

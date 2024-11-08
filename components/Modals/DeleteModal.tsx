@@ -33,6 +33,7 @@ const DeleteModal = ({ children, id }: Props) => {
     </DialogHeader>
     <DialogFooter className="justify-start">
             <DefaultButton 
+            disabledText="Deleting"
             variant="destructive"
             pending={isLoading} 
             onClick={() => {
