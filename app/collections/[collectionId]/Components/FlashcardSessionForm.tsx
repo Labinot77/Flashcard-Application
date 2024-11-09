@@ -8,12 +8,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import FlashcardComponent from "./Flashcard";
 import FlashcardNavigation from "./FlashcardNavigation";
 import FlashcardMisc from "./FlashcardMisc";
-import { CollectionToUserExtended } from "@/types/types";
+import { ClassDataExtended, CollectionToUserExtended } from "@/types/types";
 
 interface Props {
   flashcards: Flashcard[];
   collection: CollectionToUserExtended;
-  currentUser: User;
+  currentUser: ClassDataExtended;
 }
 
 const FlashcardViewer = ({ flashcards, collection, currentUser }: Props) => {

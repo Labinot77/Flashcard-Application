@@ -3,7 +3,7 @@
 import { DefaultButton } from "@/components/Buttons/DefaultButton";
 import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation";
-import { CollectionToUserExtended } from "@/types/types";
+import { ClassDataExtended, CollectionToUserExtended } from "@/types/types";
 import { IoMdShuffle } from "react-icons/io";
 import { User } from "@prisma/client";
 import { addToLikesCollection } from "@/lib/actions/Collection";
@@ -11,7 +11,7 @@ import ShareModal from "./Modal/ShareModal";
 
 interface Props {
   collection: CollectionToUserExtended;
-  currentUser: User;
+  currentUser: ClassDataExtended;
   recentTime: string;
   onRandomize: () => void;
 }
@@ -47,7 +47,7 @@ const FlashcardMisc = ({ collection, currentUser ,recentTime, onRandomize }: Pro
         </div>
 
         <div className="flex gap-2 ">
-          <ShareModal currentUser={currentUser} id={collection.id}>
+          <ShareModal isShuffled={isShuffled} currentUser={currentUser} id={collection.id}>
           <DefaultButton pending={false}>Share</DefaultButton> 
           </ShareModal>
           <DefaultButton pending={false} onClick={addToLiked}>{collection.likes.includes(currentUser.id) ? "Hearted" : "Heart"}</DefaultButton> 

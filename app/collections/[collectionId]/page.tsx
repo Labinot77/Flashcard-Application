@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { addToSeenInCollection, getCollectionById } from "@/lib/actions/Collection"
 import FlashcardSessionForm from "./Components/FlashcardSessionForm";
-import { getCurrentSessionUser } from "@/lib/actions/User";
+import { getCurrentSessionUser, getCurrentSessionUserData } from "@/lib/actions/User";
 
 interface Props {
   params: Promise<{ 
@@ -11,7 +11,7 @@ interface Props {
 
 const page = async ({ params }: Props) => {
   const { collectionId } = await params
-  const currentUser = await getCurrentSessionUser()
+  const currentUser = await getCurrentSessionUserData()
   const collection = await getCollectionById(collectionId)
   const flashcards = collection?.flashcards
   
