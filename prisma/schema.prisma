@@ -47,6 +47,8 @@ model Collection {
 
   flashcards Flashcard[]
 
+  sharedCollections SharedCollection[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -65,6 +67,21 @@ model Flashcard {
 }
 
 // Each class will have a creator which will be the user who created the class. The class can have many users who are enrolled in the class. 
+
+// This because mongodb doesn't support many-to-many relationships
+model SharedCollection {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  classId       String     @db.ObjectId
+  collectionId  String     @db.ObjectId
+
+  class         Classes    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  collection    Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime   @default(now())
+
+  @@unique([classId, collectionId]) 
+}
+
 model Classes {
   id            String           @id @default(auto()) @map("_id") @db.ObjectId
   title         String
@@ -77,6 +94,8 @@ model Classes {
   classUsers    ClassUser[]
 
   conversations Conversation?
+
+  sharedCollections SharedCollection[]
 
   lastMessageAt DateTime         @default(now())
   createdAt     DateTime         @default(now())
@@ -117,7 +136,6 @@ model Message {
   sender User @relation(fields: [senderId], references: [id], onDelete: Cascade)
   senderId String @db.ObjectId
 }
-
 
  
 model Account {

@@ -40,7 +40,7 @@ const Page = async () => {
       <div className='mt-14'>
         <h1 className='text-3xl'>Classes</h1>
         {classes && classes.length > 0 ? (
-          <div className='grid grid-col-1 md:grid-cols-3 gap-4 mt-4'>
+          <div className='grid grid-cols-2 md:grid-cols-3 gap-4 mt-4'>
             {classes?.map((classItem) => (
               <Link href={`/classes/${classItem.class.id}`} key={classItem.class.id}>
                 <CardWrapper className='w-full flex flex-col justify-center items-center bg-primary-foreground/20'>

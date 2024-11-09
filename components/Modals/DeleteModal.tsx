@@ -3,7 +3,6 @@
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import { DefaultButton } from '../Buttons/DefaultButton'
 import { useState, useTransition } from 'react'
-import { wait } from '@/lib/Misc'
 import { deleteCollection } from '@/lib/actions/Collection'
 import { useRouter } from 'next/navigation'
 
@@ -12,10 +11,13 @@ interface Props {
   children: React.ReactNode;
 }
 
+
+
 const DeleteModal = ({ children, id }: Props) => {
   const router = useRouter();
   const [open, setIsOpen] = useState(false);
   const [isLoading, startTransition] = useTransition();
+
   return (
     <Dialog open={open} onOpenChange={(prev) => setIsOpen(prev)}>
     <DialogTrigger asChild>

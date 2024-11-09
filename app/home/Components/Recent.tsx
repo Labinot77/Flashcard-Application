@@ -14,7 +14,7 @@ interface Props {
 
 
 const Recent = ({ collection, currentUserData }: Props) => {
-  const liStyle = "flex justify-center items-center";
+  const liStyle = "flex text-xs justify-center items-center";
   const liItems = [
     { content: "Flashcard set" }, 
     { content: <><LuDot /> terms {collection.flashcards?.length}</> },
@@ -28,7 +28,7 @@ const Recent = ({ collection, currentUserData }: Props) => {
         <PiCardsLight className='h-7 w-7 text-white' />
       </div>
       <div className='flex flex-col justify-center items-start'>
-        <CardTitle className="text-base leading-none -tracking-tight">{collection.title}</CardTitle>
+        <CardTitle className="leading-none -tracking-tight">{collection.title}</CardTitle>
         <CardFooter>
         <ul className='flex'>
           {liItems.map((item, index) => (

@@ -78,3 +78,21 @@ export const createClass = async (
     throw new Error(error.message || "Internal Server Error");
   }
 };
+
+
+export const getUserClasses = async (userId: string) => {
+  try {
+    const classes = await db.classUser.findMany({
+      where: {
+        id: userId,
+      },
+      include: {
+        class: true,
+      }
+    });
+
+    return classes;
+  } catch (error: any) {
+      console.log("Error in getUserClasses:", error);
+  }
+}

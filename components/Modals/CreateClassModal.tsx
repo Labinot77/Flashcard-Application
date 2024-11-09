@@ -26,7 +26,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { createClass } from "@/lib/actions/Classes";
@@ -41,11 +41,21 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer"
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+} from "@/components/ui/drawer";
 import { Label } from "../ui/label";
 import { cn } from "@/lib/utils";
 import { MdOutlinePeopleAlt } from "react-icons/md";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command";
+
 interface Props {
   users: User[];
   currentUser: User;
@@ -54,9 +64,8 @@ interface Props {
 
 const CreateClassModal = ({ currentUser, users, children }: Props) => {
   const router = useRouter();
-  const [search , setSearch] = useState<string>("");
+  const [search, setSearch] = useState<string>("");
   const [open, setIsOpen] = useState(false);
-  const isDesktop = useMediaQuery("(min-width: 768px)")
 
   const form = useForm<z.infer<typeof ClassCreationValidation>>({
     resolver: zodResolver(ClassCreationValidation),
@@ -68,24 +77,24 @@ const CreateClassModal = ({ currentUser, users, children }: Props) => {
   });
 
   const { isSubmitting } = form.formState;
-  console.log(currentUser)
 
   const filteredUsers = useMemo(
-    () => users
-        .filter((user) => user.id !== currentUser.id) 
+    () =>
+      users
+        .filter((user) => user.id !== currentUser.id)
         .filter((user) =>
-          user.name.toLowerCase().includes(search.toLowerCase()) 
+          user.name.toLowerCase().includes(search.toLowerCase())
         ),
-    [users, search] 
+    [users, search]
   );
 
   const onSubmit = async (data: z.infer<typeof ClassCreationValidation>) => {
     try {
       const { classId, title } = await createClass(
         currentUser.id,
-        data.classUsers, 
-        data.title, 
-        data.description || "" 
+        data.classUsers,
+        data.title,
+        data.description || ""
       );
 
       router.push(`/classes/${classId}`);
@@ -106,62 +115,22 @@ const CreateClassModal = ({ currentUser, users, children }: Props) => {
     }
   };
 
-  if (!isDesktop) {
-    return (
-      <Drawer open={open} onOpenChange={(prev) => setIsOpen(prev)}>
-      <DrawerTrigger asChild>
-          <div className="flex items-center gap-x-3 rounded-md p-3 mt-2 leading-6 font-semibold text-gray-500 hover:bg-gray-100 cursor-pointer hover:bg-secondary-foreground/40">
-          <MdOutlinePeopleAlt className="h-7 w-7 shrink-0" />
-          <span>Create a Class</span>
-        </div>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="text-left">
-          <DrawerTitle>Edit profile</DrawerTitle>
-          <DrawerDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DrawerDescription>
-        </DrawerHeader>
-        <ProfileForm className="px-4" />
-        <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
-  )
-}
- 
-function ProfileForm({ className }: React.ComponentProps<"form">) {
-  return (
-    <form className={cn("grid items-start gap-4", className)}>
-      <div className="grid gap-2">
-        <Label htmlFor="email">Email</Label>
-        <Input type="email" id="email" defaultValue="shadcn@example.com" />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="username">Username</Label>
-        <Input id="username" defaultValue="@shadcn" />
-      </div>
-      <Button type="submit">Save changes</Button>
-    </form>
-  );
-}
-
   return (
     <Dialog open={open} onOpenChange={(prev) => setIsOpen(prev)}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Create Class</DialogTitle>
-          <DialogDescription>Enter details and select users to add to this class.</DialogDescription>
+          <DialogDescription>
+            Enter details and select users to add to this class.
+          </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col space-y-4">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="h-full space-y-4">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="h-full space-y-4"
+            >
               <FormField
                 control={form.control}
                 name="title"
@@ -195,46 +164,65 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
                 name="classUsers"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Select Users</FormLabel>
-                    <DefaultInput
-                      placeholder="Search users..."
-                      value={search}
-                      onChange={e => setSearch(e.target.value)}
-                    />
+                    <Command className="rounded-lg border bg-card/50">
+                      {/* Not using CommandInput because it's doenst support onChange */}
+                      <DefaultInput
+                        placeholder="Search users..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="p-2 w-full"
+                      />
+                      <CommandList>
+                        <CommandEmpty>No results found.</CommandEmpty>
+                        <CommandGroup>
+                          <ScrollArea className="py-2 pr-4 max-h-[15vh] overflow-y-auto">
+                            {filteredUsers.map((user) => {
+                              const isChecked = field.value.includes(user.id)
 
-                    <ScrollArea className="py-2 pr-4 overflow-y-auto max-h-[14vh]">
-                      {filteredUsers.length ? (
-                        filteredUsers.map((user) => (
-                          <div key={user.id} className="flex items-center space-x-2 mb-2">
-                          <label
-                            htmlFor={user.id}
-                            className="w-full flex items-center hover:bg-primary-foreground/40 rounded px-2 py-1  cursor-pointer"
-                          >
-                            <Checkbox
-                              id={user.id}
-                              value={user.id}
-                              onCheckedChange={(isChecked) => {
-                                const userId = user.id;
-                                form.setValue(
-                                  "classUsers",
-                                  isChecked
-                                    ? [...field.value, userId]
-                                    : field.value.filter((id) => id !== userId),
-                                  { shouldValidate: true }
-                                );
-                              }}
-                              checked={field.value.includes(user.id)}
-                            />
-                            <span className="ml-2">{user.name}</span>
-                          </label>
-                        </div>
-                        ))
-                      ) : (
-                        <div className="flex justify-center items-center">
-                          <p className="text-gray-500">No users found.</p>
-                        </div>
-                      )}
-                    </ScrollArea>
+                              return (
+                                <CommandItem
+                                  key={user.id}
+                                  className="flex items-center justify-between space-x-2 mb-2 cursor-pointer hover:bg-primary-foreground/40 rounded"
+                                  onClick={() => {
+                                    form.setValue(
+                                      "classUsers",
+                                      isChecked
+                                        ? field.value.filter((id) => id !== user.id)
+                                        : [...field.value, user.id],
+                                      { shouldValidate: true }
+                                    );
+                                  }}
+                                >
+                                  <label
+                                    htmlFor={user.id}
+                                    className="flex items-center space-x-2 w-full cursor-pointer"
+                                  >
+                                    <MdOutlinePeopleAlt className="mr-2" />
+                                    <p>{user.name} <span className="text-muted-foreground opacity-50">({user.email})</span></p>
+                                  </label>
+
+                                  <Checkbox
+                                    id={user.id}
+                                    value={user.id}
+                                    checked={isChecked}
+                                    onClick={(e) => e.stopPropagation()} // Prevents row click event
+                                    onCheckedChange={(isChecked) => {
+                                      form.setValue(
+                                        "classUsers",
+                                        isChecked
+                                          ? [...field.value, user.id]
+                                          : field.value.filter((id) => id !== user.id),
+                                        { shouldValidate: true }
+                                      );
+                                    }}
+                                  />
+                                </CommandItem>
+                              )
+                            })}
+                          </ScrollArea>
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -242,7 +230,11 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
 
               {/* Submit Button */}
               <DialogFooter>
-                <DefaultButton disabledText="Creating" pending={isSubmitting} type="submit">
+                <DefaultButton
+                  disabledText="Creating"
+                  pending={isSubmitting}
+                  type="submit"
+                >
                   Create a Class
                 </DefaultButton>
               </DialogFooter>

@@ -55,6 +55,7 @@ export const getMostPopularCollections = async () => {
     })
     
     const filteredCollections = collection
+    .filter(collection => collection.likes.length > 0)
     .sort((a, b) => b.likes.length - a.likes.length)
     .slice(0, 4);
     

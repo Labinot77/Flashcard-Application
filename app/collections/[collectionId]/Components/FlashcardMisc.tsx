@@ -7,6 +7,7 @@ import { CollectionToUserExtended } from "@/types/types";
 import { IoMdShuffle } from "react-icons/io";
 import { User } from "@prisma/client";
 import { addToLikesCollection } from "@/lib/actions/Collection";
+import ShareModal from "./Modal/ShareModal";
 
 interface Props {
   collection: CollectionToUserExtended;
@@ -20,7 +21,6 @@ const FlashcardMisc = ({ collection, currentUser ,recentTime, onRandomize }: Pro
   const params = useSearchParams();
   const isShuffled = params.get("randomized") === "true";
   const router = useRouter();
-
 
   const addToLiked = async () => {
     await addToLikesCollection(collection.id, currentUser.id)
@@ -47,7 +47,9 @@ const FlashcardMisc = ({ collection, currentUser ,recentTime, onRandomize }: Pro
         </div>
 
         <div className="flex gap-2 ">
+          <ShareModal currentUser={currentUser} id={collection.id}>
           <DefaultButton pending={false}>Share</DefaultButton> 
+          </ShareModal>
           <DefaultButton pending={false} onClick={addToLiked}>{collection.likes.includes(currentUser.id) ? "Hearted" : "Heart"}</DefaultButton> 
           {(collection.userId === currentUser.id && (
             <DefaultButton pending={false} onClick={() => router.push(`edit/${collection.id}`)}>Edit</DefaultButton>

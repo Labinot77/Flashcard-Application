@@ -30,7 +30,7 @@ const onSubmit = async () => {
 
   return (
     <div className='flex justify-between items-center'>
-    <Link href="/settings">
+    {/* <Link href="/settings">
     <Image
       src={currentUser?.image as string}
       alt="logo"
@@ -38,7 +38,7 @@ const onSubmit = async () => {
       width={50}
       height={50}
     />
-    </Link>
+    </Link> */}
 
     <DefaultButton pending={isSubmitting} onClick={onSubmit}>
       <SlLogout className="h-5 w-5" />

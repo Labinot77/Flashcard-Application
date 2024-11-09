@@ -4,9 +4,9 @@ import Image from "next/image";
 import Header from "./Components/Header";
 
 interface Props {
-  params: {
+  params: Promise<{
     classId: string
-  };
+  }>;
 }
 
 const dynamicPage = async ({ params }: Props) => {
@@ -21,13 +21,11 @@ const dynamicPage = async ({ params }: Props) => {
       </main>
     );
   }
+  
   return (
-    <div className="p-4">
+    <div className="">
         <Header currentClass={currentClass} />
-
-
       <div className="bg-black h-[70vh] rounded-lg p-4 w-full">Chat</div>
-
 
       <div>
         Shared collections
