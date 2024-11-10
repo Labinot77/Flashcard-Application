@@ -1,10 +1,10 @@
 "use client";
 
-import { User } from "@prisma/client";
+// import { User } from "@prisma/client";
 import Image from "next/image";
 
 interface Props {
-  users: User[];
+  users: any[];
 }
 
 const AvatarGroup = ({ users }: Props) => {
