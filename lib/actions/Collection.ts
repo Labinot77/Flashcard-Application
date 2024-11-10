@@ -196,7 +196,7 @@ export const shareCollection = async (classes: string[], collectionId: string) =
     //   throw new Error('Collection not found');
     // };
 
-    for (let classId of classes) {
+    for (const classId of classes) {
       const alreadyShared = db.sharedCollection.findFirst({
         where: {
           classId: classId,
