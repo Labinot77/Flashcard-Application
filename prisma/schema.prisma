@@ -71,11 +71,12 @@ model Flashcard {
 // This because mongodb doesn't support many-to-many relationships
 model SharedCollection {
   id            String     @id @default(auto()) @map("_id") @db.ObjectId
-  classId       String     @db.ObjectId
-  collectionId  String     @db.ObjectId
 
+  classId       String     @db.ObjectId
   class         Classes    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  
   collection    Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  collectionId  String     @db.ObjectId
 
   createdAt     DateTime   @default(now())
 

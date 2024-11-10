@@ -18,7 +18,7 @@ export const FlashcardValidation = z.object({
       answer: z.string().min(2, {
         message: "Answer must be at least 2 characters long"
       }).max(50),
-      hint: z.string().optional(),
+      hint: z.string().optional().default(""),
       collectionId: z.string().nullable(), // This is nullable instead of optional, because it is a required field in the database + TS complaining about it
       createdAt: z.date(),
       updatedAt: z.date(),

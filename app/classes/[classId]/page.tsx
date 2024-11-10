@@ -1,6 +1,4 @@
 import { getClassbyId } from "@/lib/actions/Classes";
-import { DotsHorizontalIcon} from "@radix-ui/react-icons";
-import Image from "next/image";
 import Header from "./Components/Header";
 
 interface Props {
@@ -25,7 +23,7 @@ const dynamicPage = async ({ params }: Props) => {
   return (
     <div className="">
         <Header currentClass={currentClass} />
-      <div className="bg-black h-[70vh] rounded-lg p-4 w-full">Chat</div>
+      {/* <div className="bg-black h-[70vh] rounded-lg p-4 w-full">Chat</div> */}
 
       <div>
         Shared collections

@@ -3,6 +3,9 @@
 import { db } from "@/db";
 import { getCurrentSessionUser } from "./User"
 import { CollectionData } from "@/types/types";
+import { Flashcard } from "@prisma/client";
+import { createFlashcards, updateFlashcard } from "./Flashcard";
+import { deleteFlashcard as deleteFlashcardFromDB } from "./Flashcard";
 
 export const getCollections = async () => {
   try {
@@ -35,17 +38,17 @@ export const getCollectionById = async (id: string) => {
       include: {
         flashcards: true,
         user: true,
-        
+
       }
     })
-    
+
     return collection
   } catch (error: any) {
     throw new Error("getCollectionById", error)
   }
 }
 
-export const getMostPopularCollections = async () => {  
+export const getMostPopularCollections = async () => {
   try {
     const collection = await db.collection.findMany({
       include: {
@@ -53,22 +56,22 @@ export const getMostPopularCollections = async () => {
         user: true,
       },
     })
-    
+
     const filteredCollections = collection
-    .filter(collection => collection.likes.length > 0)
-    .sort((a, b) => b.likes.length - a.likes.length)
-    .slice(0, 4);
-    
+      .filter(collection => collection.likes.length > 0)
+      .sort((a, b) => b.likes.length - a.likes.length)
+      .slice(0, 4);
+
     return filteredCollections;
-  } catch (error:any) {
+  } catch (error: any) {
     throw new Error("getMostPopularCollections", error);
   }
 }
 
-export const getCollectionsLikedByUser = async () => {  
+export const getCollectionsLikedByUser = async () => {
   try {
     const currentUser = await getCurrentSessionUser();
-  
+
     if (!currentUser?.id) {
       return []
     }
@@ -83,17 +86,17 @@ export const getCollectionsLikedByUser = async () => {
       },
     })
 
-      const filteredCollections = collection
+    const filteredCollections = collection
       .filter(collection => collection.likes?.includes(currentUser?.id))
       .slice(0, 4);
-      
+
     return filteredCollections;
   } catch (error: any) {
     console.log("getCollectionsLikedByUser", error)
   }
 }
 
-export const getAllCollectionsSeenByUser = async () => { 
+export const getAllCollectionsSeenByUser = async () => {
   try {
     const currentUser = await getCurrentSessionUser();
     // Returns an empty array if the user is not logged in
@@ -113,10 +116,10 @@ export const getAllCollectionsSeenByUser = async () => {
 
     // Gets the collections that the user has seen and slices them to the first 6
     const collectionsSeenByUser = res.
-    filter(collection => collection.seen?.includes(currentUser?.id)
-    ).slice(0, 4);
+      filter(collection => collection.seen?.includes(currentUser?.id)
+      ).slice(0, 4);
 
-   return collectionsSeenByUser
+    return collectionsSeenByUser
   } catch (error: any) {
     throw new Error("getAllCollections", error)
   }
@@ -157,7 +160,7 @@ export const addToLikesCollection = async (collectionId: string, userId: string)
     })
 
     if (collection && !collection.likes.includes(userId)) {
-      await db.collection.update({ 
+      await db.collection.update({
         where: { id: collectionId },
         data: {
           likes: {
@@ -170,7 +173,7 @@ export const addToLikesCollection = async (collectionId: string, userId: string)
         where: { id: collectionId },
         data: {
           likes: {
-            set: collection?.likes.filter(id => id !== userId) 
+            set: collection?.likes.filter(id => id !== userId)
           }
         }
       })
@@ -182,12 +185,47 @@ export const addToLikesCollection = async (collectionId: string, userId: string)
   }
 }
 
+export const shareCollection = async (classes: string[], collectionId: string) => {
+  try {
+    const collection = await db.collection.findUnique({
+      where: { id: collectionId },
+      select: { sharedCollections: true }
+    });
+    console.log(collection)
+    // if (!collection) {
+    //   throw new Error('Collection not found');
+    // };
+
+    for (let classId of classes) {
+      const alreadyShared = db.sharedCollection.findFirst({
+        where: {
+          classId: classId,
+          collectionId: collectionId
+        },
+      });
+
+      if (!alreadyShared) {
+        const res =await db.sharedCollection.create({
+          data: {
+            classId: classId,
+            collectionId: collectionId,
+          }
+        })
+        return res;
+      }
+    };
+
+    return false
+  } catch (error: any) {
+    console.log("shareCollection", error)
+  }
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const createCollection = async (values: CollectionData) => {  
+export const createCollection = async (values: CollectionData) => {
   try {
     const currentUser = await getCurrentSessionUser();
-  
+
     if (!currentUser?.id) {
       return false
     };
@@ -235,7 +273,7 @@ export const deleteCollection = async (id: string) => {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const updateCollection = async (id: string, title: string, description?: string) => {
+export const updateCollection = async (id: string, title: string,  existingFlashcards: Flashcard[], newFlashcards: Flashcard[], flashcardsToDelete: string[], description?: string,) => {
   try {
     await db.collection.update({
       where: {
@@ -246,8 +284,44 @@ export const updateCollection = async (id: string, title: string, description?: 
         description: description
       }
     })
+
+    if (flashcardsToDelete.length > 0) {
+      for (const flashcardId of flashcardsToDelete) {
+        await deleteFlashcardFromDB(flashcardId)
+      }
+    }
+
+    if (existingFlashcards.length > 0) {
+      for (const flashcard of existingFlashcards) {
+        await updateFlashcard(flashcard)
+      }
+    }
+
+    if (newFlashcards.length > 0) {
+      for (const flashcard of newFlashcards) {
+        await createFlashcards(flashcard.collectionId!, flashcard.question, flashcard.answer, flashcard.hint!)
+      }
+    }
+
+
   } catch (error: any) {
     throw new Error("updateCollection", error)
-
   }
 }
+
+// export const updateCollection = async (id: string, title: string, description?: string) => {
+//   try {
+//     await db.collection.update({
+//       where: {
+//         id: id,
+//       },
+//       data: {
+//         title: title,
+//         description: description
+//       }
+//     })
+//   } catch (error: any) {
+//     throw new Error("updateCollection", error)
+
+//   }
+// }

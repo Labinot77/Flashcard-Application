@@ -74,28 +74,26 @@ const EditForm = ({ flashcards, collection }: Props) => {
 
   const onSubmit = async (values: z.infer<typeof FlashcardValidation>) => {    
     try {
-      const exisitingFlashcards = values.flashcards.filter((flashcard) => !flashcard.id.startsWith("temp"))
+      const existingFlashcards = values.flashcards.filter((flashcard) => !flashcard.id.startsWith("temp"))
       const newFlashcards = values.flashcards.filter((flashcard) => flashcard.id.startsWith("temp")) // DONE
-
-      if (newFlashcards.length > 0) {
-        for (const flashcard of newFlashcards) {
-          await createFlashcards(flashcard.collectionId!, flashcard.question, flashcard.answer, flashcard.hint!)
-        }
+      
+      if ((existingFlashcards.length + newFlashcards.length) < 2) {
+        toast({
+          title: "Insufficient Flashcards",
+          description: "You need at least 2 flashcards in your collection.",
+        });
+        return;
       }
+  
 
-      if (exisitingFlashcards.length > 0) {
-        for (const flashcard of exisitingFlashcards) {
-          await updateFlashcard(flashcard)
-        }
-      }
-
-      if (flashcardsToDelete.length > 0) {
-        for (const flashcardId of flashcardsToDelete) {
-          await deleteFlashcardFromDB(flashcardId)
-        }
-      }
-
-      await updateCollection(values.collectionId, values.title, values.description)
+      await updateCollection(
+        values.collectionId,
+        values.title,
+        existingFlashcards,
+        newFlashcards,
+        flashcardsToDelete,
+        values.description,
+      );
 
       router.push(`/collections/${values.collectionId}`)
       toast({
@@ -114,10 +112,6 @@ const EditForm = ({ flashcards, collection }: Props) => {
     if (!id.startsWith("temp")) {
       setFlashcardsToDelete((prev) => [...prev, id])
     }
-    
-    // const updatedFlashcards = flashcardList.map((flashcard) =>
-    //   flashcard.id === id ? { ...flashcard, deleted: true } : flashcard
-    // );
 
     const updatedFlashcards = flashcardList.filter(flashcard => flashcard.id !== id);
 

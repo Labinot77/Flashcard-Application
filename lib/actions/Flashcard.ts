@@ -57,7 +57,7 @@ export const createFlashcards = async (collectionId: string, question: string, a
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const updateFlashcard = async (flashcard: any) => {
+export const updateFlashcard = async (flashcard: Flashcard) => {
   try {
     const res = await db.flashcard.update({
       where: {

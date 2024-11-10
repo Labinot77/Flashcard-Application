@@ -1,7 +1,6 @@
 "use client";
 
 import { DefaultInput } from "@/components/Inputs/DefaultInput";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +20,6 @@ import {
 } from "@/components/ui/form";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input"; // ShadCN Input
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import { useForm } from "react-hook-form";
@@ -32,29 +30,15 @@ import { toast } from "@/hooks/use-toast";
 import { createClass } from "@/lib/actions/Classes";
 import { ClassCreationValidation } from "@/lib/validations/Class";
 import { DefaultButton } from "../Buttons/DefaultButton";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-import { Label } from "../ui/label";
-import { cn } from "@/lib/utils";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
+import { GrayedButton } from "../Buttons/GrayedButton";
 
 interface Props {
   users: User[];
@@ -205,7 +189,6 @@ const CreateClassModal = ({ currentUser, users, children }: Props) => {
                                     id={user.id}
                                     value={user.id}
                                     checked={isChecked}
-                                    onClick={(e) => e.stopPropagation()} // Prevents row click event
                                     onCheckedChange={(isChecked) => {
                                       form.setValue(
                                         "classUsers",
@@ -223,20 +206,25 @@ const CreateClassModal = ({ currentUser, users, children }: Props) => {
                         </CommandGroup>
                       </CommandList>
                     </Command>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
 
-              {/* Submit Button */}
               <DialogFooter>
-                <DefaultButton
-                  disabledText="Creating"
-                  pending={isSubmitting}
-                  type="submit"
-                >
-                  Create a Class
-                </DefaultButton>
+                {form.watch("classUsers").length > 0 && form.watch("title").length > 2 ? (
+                  <DefaultButton
+                    disabledText="Creating"
+                    pending={isSubmitting}
+                    type="submit"
+                  >
+                    Create a Class
+                  </DefaultButton>
+                ) : (
+                  <GrayedButton
+                    pending={true}>
+                    Create a Class
+                  </GrayedButton>
+                )}
               </DialogFooter>
             </form>
           </Form>

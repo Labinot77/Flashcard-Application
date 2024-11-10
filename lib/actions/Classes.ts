@@ -39,10 +39,9 @@ export const createClass = async (
       throw new Error("Unauthorized");
     }
 
-    if (!title || members.length < 2) {
-      throw new Error("Invalid Data: Title is required and at least two members must be selected");
+    if (!title || members.length < 1) {
+      throw new Error("Not enought members");
     }
-
     
     // Creating the class
     const newClass: Classes = await db.classes.create({
