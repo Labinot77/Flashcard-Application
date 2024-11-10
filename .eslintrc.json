@@ -6,6 +6,5 @@
     "react/no-unescaped-entities": "off",
     "@typescript-eslint/no-empty-object-type": "warn",
     "react/display-name": "off"
-
   }
 }
