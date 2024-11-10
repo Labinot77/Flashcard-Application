@@ -2,7 +2,6 @@
 
 import { db } from "@/db"
 import { NextResponse } from "next/server"
-import { getCurrentSessionUser } from "./User"
 import { Flashcard } from "@prisma/client"
 
 export const getFlashcards = async (collectionId: string) => { 

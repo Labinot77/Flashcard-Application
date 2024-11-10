@@ -1,11 +1,6 @@
 "use client";
 
 import { DefaultButton } from "@/components/Buttons/DefaultButton";
-import {
-  createFlashcards,
-  deleteFlashcard as deleteFlashcardFromDB,
-  updateFlashcard,
-} from "@/lib/actions/Flashcard";
 import { Collection, Flashcard } from "@prisma/client";
 import {
   Form,

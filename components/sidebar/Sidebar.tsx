@@ -10,7 +10,6 @@ import { redirect } from "next/navigation";
 
 const Sidebar = async () => {
   const currentUser = await getCurrentSessionUserData();
-  const userClasses = currentUser?.classUsers;
   if (!currentUser?.id) {
     redirect("/authentication/register")
   }

@@ -1,6 +1,6 @@
 "use client"
 
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import { DefaultButton } from '../Buttons/DefaultButton'
 import { useState, useTransition } from 'react'
 import { deleteCollection } from '@/lib/actions/Collection'

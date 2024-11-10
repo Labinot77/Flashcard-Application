@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { DefaultInput } from "../Inputs/DefaultInput";
 import { z } from "zod";
@@ -26,7 +26,6 @@ interface Props {
 
 const SettingsModal = ({ children, currentUser }: Props) => {
   const router = useRouter();
-  const [isDisabled, startTranstion] = useTransition();
   const [open, setIsOpen] = useState(false);
   const form = useForm<z.infer<typeof UserValidation>>({
     resolver: zodResolver(UserValidation),
@@ -42,7 +41,7 @@ const SettingsModal = ({ children, currentUser }: Props) => {
 
 
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
-    const res = await updateUser(values)
+     await updateUser(values)
 
     toast({
       title: "Success",

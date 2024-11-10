@@ -1,9 +1,7 @@
 import { getCurrentSessionUser } from '@/lib/actions/User'
 import Link from 'next/link'
 import { redirect } from 'next/navigation';
-import React from 'react'
 import RegisterForm from './Components/RegisterForm';
-import { wait } from '@/lib/Misc';
 
 const page = async () => {
   const session = await getCurrentSessionUser();

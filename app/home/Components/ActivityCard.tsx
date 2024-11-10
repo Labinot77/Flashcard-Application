@@ -4,7 +4,7 @@ import { DefaultButton } from '@/components/Buttons/DefaultButton'
 import { Card } from '@/components/ui/card'
 import { wait } from '@/lib/Misc'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 interface Props {
   btnText: string,

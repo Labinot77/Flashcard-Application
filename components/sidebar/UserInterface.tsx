@@ -1,8 +1,6 @@
 "use client"
 
 import { User } from '@prisma/client'
-import Image from 'next/image'
-import Link from 'next/link'
 import { DefaultButton } from '../Buttons/DefaultButton';
 import { SlLogout } from "react-icons/sl";
 import { wait } from '@/lib/Misc';
@@ -16,7 +14,7 @@ interface Props {
 
 const UserInterface = ({ currentUser }: Props) => {
   const [ isSubmitting, setIsSubmitting ] = useState(false)
-
+  console.log(currentUser)
   
 const onSubmit = async () => {
   setIsSubmitting(true)

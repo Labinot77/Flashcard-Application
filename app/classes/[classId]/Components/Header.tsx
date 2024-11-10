@@ -1,7 +1,5 @@
 "use client"
 
-import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-import React from 'react'
 import AvatarGroup from './AvatarGroup';
 import { User } from '@prisma/client';
 import { ClassDataExtended } from '@/types/types';

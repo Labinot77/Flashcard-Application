@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { addToSeenInCollection, getCollectionById } from "@/lib/actions/Collection"
 import FlashcardSessionForm from "./Components/FlashcardSessionForm";
-import { getCurrentSessionUser, getCurrentSessionUserData } from "@/lib/actions/User";
+import { getCurrentSessionUserData } from "@/lib/actions/User";
 
 interface Props {
   params: Promise<{ 

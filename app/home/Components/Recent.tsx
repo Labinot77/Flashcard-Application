@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
+import { Card, CardFooter, CardTitle } from "@/components/ui/card";
 import { CollectionToUserExtendedData } from "@/types/types";
 import { User } from "@prisma/client"
 import Link from "next/link";

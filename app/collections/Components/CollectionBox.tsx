@@ -2,7 +2,6 @@
 
 import { DefaultButton } from "@/components/Buttons/DefaultButton";
 import { Separator } from "@/components/ui/separator";
-import { deleteCollection } from "@/lib/actions/Collection";
 import { getMostRecentDate, wait } from "@/lib/Misc";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -10,14 +9,11 @@ import { FaDoorClosed } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import DeleteModal from "@/components/Modals/DeleteModal";
-import { Button } from "@/components/ui/button";
 
 interface Props {
   title: string;

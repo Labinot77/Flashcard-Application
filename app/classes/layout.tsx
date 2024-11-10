@@ -1,5 +1,4 @@
 import Sidebar from "@/components/sidebar/Sidebar";
-import { wait } from "@/lib/Misc";
 
 export default function ClassesLayout({ children,
 }: Readonly<{

@@ -5,7 +5,6 @@ import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation";
 import { ClassDataExtended, CollectionToUserExtended } from "@/types/types";
 import { IoMdShuffle } from "react-icons/io";
-import { User } from "@prisma/client";
 import { addToLikesCollection } from "@/lib/actions/Collection";
 import ShareModal from "./Modal/ShareModal";
 

@@ -1,7 +1,6 @@
 "use client"
 
 
-import { PulseLoader } from 'react-spinners';
 import { Button } from '../ui/button';
 import { CgSpinner } from 'react-icons/cg';
 
