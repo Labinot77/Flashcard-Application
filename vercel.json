@@ -1,5 +1,7 @@
 {
   "build": {
-    "eslint": false
+    "env": {
+      "NEXT_PUBLIC_ESLINT_DISABLE": "true"
+    }
   }
 }
