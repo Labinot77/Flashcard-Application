@@ -1,6 +1,6 @@
 "use client"
 
-import { useRoutes1, useRoutes3 } from '@/hooks/useRoutes';
+import { useRoutes1 } from '@/hooks/useRoutes';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
@@ -9,7 +9,6 @@ import { DefaultButton } from './Buttons/DefaultButton';
 
 const LandingPageSitePreview = () => {
   const FirstRoutes = useRoutes1();
-  const ThirdRoutes = useRoutes3();
 
   return (
     <main className='flex h-[28rem] w-[52rem]'>

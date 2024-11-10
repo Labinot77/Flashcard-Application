@@ -1,6 +1,5 @@
 "use client"
 import SettingsModal from '@/components/Modals/SettingsModal';
-import { useRoutes3 } from '@/hooks/useRoutes';
 import { User } from '@prisma/client';
 import Link from 'next/link';
 import { CiSettings } from 'react-icons/ci';
@@ -10,7 +9,6 @@ interface Props {
 }
 
 const ThirdRouteItem = ({ currentUser }: Props) => {
-  // const ThirdRoutes = useRoutes3();
   return (
     <>
     <SettingsModal currentUser={currentUser}>
