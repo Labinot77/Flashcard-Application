@@ -2,12 +2,9 @@
 
 import { usePathname } from "next/navigation"
 import { useMemo } from "react";
-import { FaUsers, FaCog } from 'react-icons/fa';
 import { useCollections } from "./useCollections";
 import { PiFolderOpenThin } from "react-icons/pi";
 import { AiOutlineHome } from "react-icons/ai";
-import { MdOutlinePeopleAlt } from "react-icons/md";
-import { CiSettings } from "react-icons/ci";
 
 export const useRoutes1 = () => {
   const pathname = usePathname();
@@ -31,18 +28,3 @@ export const useRoutes1 = () => {
   return routes;
 };
 
-
-export const useRoutes3 = () => {
-  const pathname = usePathname();
-
-  const routes = useMemo(() => [
-    {
-      label: "Settings",
-      href: '/settings',
-      icon: CiSettings,
-      active: pathname === '/settings',
-    },
-  ], [pathname]);
-
-  return routes;
-};

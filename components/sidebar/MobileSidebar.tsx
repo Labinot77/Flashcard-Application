@@ -4,7 +4,7 @@ import React from 'react'
 const MobileSidebar = () => {
   return (
     <div>
-      
+      асда
     </div>
   //  Simple Mobile Sidebar
   )
