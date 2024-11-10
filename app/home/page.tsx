@@ -25,7 +25,7 @@ const Page = async () => {
         {recentCollectionsSeenByUser?.length > 0 ? (
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4'>
             {recentCollectionsSeenByUser.map((collection) => (
-              <Recent collection={collection} currentUserData={currentUserData!} />
+              <Recent collection={collection} currentUserData={currentUserData!} key={collection.id} />
             ))}
           </div>
         ) : (
@@ -74,7 +74,7 @@ const Page = async () => {
         {likedCollections && likedCollections?.length > 0 ? (
           <div className='grid grid-col-1 md:grid-cols-2 gap-4 mt-4'>
             {likedCollections?.map((collection) => (
-              <Recent collection={collection} currentUserData={currentUserData!} />
+              <Recent collection={collection} currentUserData={currentUserData!} key={collection.id} />
             ))}
           </div>
         ) : (
@@ -90,7 +90,7 @@ const Page = async () => {
         {mostPopularCollections?.length > 0 ? (
           <div className='grid grid-col-1 md:grid-cols-2 gap-4 mt-4'>
             {mostPopularCollections.map((collection) => (
-              <PopularCollections collection={collection} />
+              <PopularCollections collection={collection} key={collection.id} />
             ))}
           </div>
         ) : (
