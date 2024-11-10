@@ -3,9 +3,7 @@
 import { useRoutes1 } from '@/hooks/useRoutes';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react'
 import { Separator } from './ui/separator';
-import { DefaultButton } from './Buttons/DefaultButton';
 
 const LandingPageSitePreview = () => {
   const FirstRoutes = useRoutes1();
@@ -43,7 +41,7 @@ const LandingPageSitePreview = () => {
               <Separator className="mt-4 mb-4" />
              
               <Separator className="mt-4 mb-4" />
-
+{/* 
               {ThirdRoutes.map((item) => (
                 <Link
                   key={item.href}
@@ -53,7 +51,7 @@ const LandingPageSitePreview = () => {
                   <item.icon className="h-6 w-6 shrink-0" />
                   <span className=''>{item.label}</span>
                 </Link>
-              ))}
+              ))} */}
 
             </ul>
 
