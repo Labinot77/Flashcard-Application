@@ -5,6 +5,16 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useState } from "react";
 
+// Helper function to shuffle options
+const shuffleArray = (array: string[]) => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap elements
+  }
+  return shuffled;
+};
+
 interface Flashcard {
   question: string;
   options: string[];
@@ -46,6 +56,8 @@ const QuestionViewer = ({ flashcards }: Props) => {
     setUserAnswer(null); // Reset user answer
   };
 
+  const shuffledOptions = shuffleArray(currentFlashcard.options); // Shuffle options
+
   return (
     <div className="mx-auto">
       <h1 className="text-xl font-bold">{currentFlashcard.question}</h1>
@@ -83,7 +95,7 @@ const QuestionViewer = ({ flashcards }: Props) => {
       )}
 
       <div className="mt-4 space-y-2">
-        {currentFlashcard.options.map((option, index) => {
+        {shuffledOptions.map((option, index) => {
           let buttonClass =
             "w-full px-4 py-2 text-left bg-gray-100 hover:bg-gray-200 rounded shadow";
 

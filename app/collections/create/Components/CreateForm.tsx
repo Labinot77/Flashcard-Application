@@ -39,7 +39,7 @@ const CreateForm = () => {
           id: `temp-${Date.now() + Math.random()}`,
           question: "",
           options: ["", "", "", ""], // Editable options
-          imageUrl: "", // New field for image URL
+          image: "", // New field for image URL
           collectionId: Math.random().toString(),
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -57,7 +57,7 @@ const CreateForm = () => {
       id: `temp-${Date.now()}`,
       question: "",
       options: ["", "", "", ""],
-      imageUrl: "",
+      image: "",
       collectionId: Math.random().toString(),
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -191,7 +191,7 @@ const CreateForm = () => {
                   onClientUploadComplete={(res) => {
                     const imageUrl = res[0]?.url;
                     form.setValue(
-                      `flashcards.${flashcardIndex}.imageUrl`,
+                      `flashcards.${flashcardIndex}.image`,
                       imageUrl
                     );
                   }}
@@ -201,17 +201,17 @@ const CreateForm = () => {
                   endpoint="imageUploader"
                 />
 
-              {flashcard.imageUrl && (
+              {flashcard.image && (
                     <div className='h-[20vh] relative'>
                   <ImageModal
-                    src={flashcard.imageUrl}
+                    src={flashcard.image}
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                   />
                   <div className="mt-2 mb-2">
                     <Image
                       onClick={() => setIsModalOpen(true)}
-                      src={flashcard.imageUrl}
+                      src={flashcard.image}
                       alt={`Image for question: ${flashcard.question}`}
                       className="object-cover object-center rounded-md transition-opacity duration-200 opacity-0 p-1 cursor-pointer"
                       fill

@@ -46,7 +46,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
         question: flashcard.question,
         answer: flashcard.answer,
         options: flashcard.options || ["", "", "", ""], // Ensure options are always an array of 4
-        imageUrl: flashcard.image || "",
+        image: flashcard.image || null,
         collectionId: collection.id,
         updatedAt: flashcard.updatedAt,
         createdAt: flashcard.createdAt,
@@ -63,7 +63,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
       question: "",
       answer: "",
       options: ["", "", "", ""], // Default empty options
-      imageUrl: "",
+      image: "",
       collectionId: collection.id,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -209,7 +209,7 @@ const EditForm = ({ flashcards, collection }: Props) => {
                   <UploadButton
                     onClientUploadComplete={(res) => {
                       const imageUrl = res[0]?.url;
-                      form.setValue(`flashcards.${index}.imageUrl`, imageUrl);
+                      form.setValue(`flashcards.${index}.image`, imageUrl);
                     }}
                     onUploadError={(error: Error) => {
                       alert(`Please try again: ${error.message}`);
@@ -217,17 +217,17 @@ const EditForm = ({ flashcards, collection }: Props) => {
                     endpoint="imageUploader"
                   />
 
-                  {flashcard.imageUrl && (
+                  {flashcard.image && (
                     <div className='h-[20vh] relative'>
                       <ImageModal
-                        src={flashcard.imageUrl}
+                        src={flashcard.image}
                         isOpen={isModalOpen}
                         onClose={() => setIsModalOpen(false)}
                       />
                       <div className="mt-2 mb-2">
                         <Image
                           onClick={() => setIsModalOpen(true)}
-                          src={flashcard.imageUrl}
+                          src={flashcard.image}
                           alt={`Image for question: ${flashcard.question}`}
                           className="object-cover object-center rounded-md transition-opacity duration-200 opacity-0 p-1 cursor-pointer"
                           fill

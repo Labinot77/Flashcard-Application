@@ -11,7 +11,7 @@ export const FlashcardValidation = z.object({
       .array(z.string().min(1, "Option cannot be empty"))
       .length(4, "Exactly 4 options are required"),
       answer: z.string(),
-      imageUrl: z.string().optional(),
+      image: z.string().nullable(),
       collectionId: z.string(), // This is nullable instead of optional, because it is a required field in the database + TS complaining about it
       createdAt: z.date(),
       updatedAt: z.date(),
