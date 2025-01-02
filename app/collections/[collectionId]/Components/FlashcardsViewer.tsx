@@ -36,10 +36,11 @@ const FlashcardsViewer = ({ flashcards }: FlashcardsViewerProps) => {
   const [submitted, setSubmitted] = useState(false);
   const form = useForm({
     defaultValues: flashcards.reduce((acc, flashcard) => {
-      acc[flashcard.id] = "";
-      return acc;
-    }, {}),
-  });
+    // @ts-ignore
+    acc[flashcard.id] = "";
+    return acc;
+  }, {}),
+});
 
   const onSubmit = async (values: any) => {
     setUserAnswers(new Map(Object.entries(values)));

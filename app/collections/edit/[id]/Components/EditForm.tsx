@@ -108,12 +108,12 @@ const EditForm = ({ flashcards, collection }: Props) => {
         title: "Колекцията е актуализирана",
         description: "Вашата колекция беше актуализирана успешно!",
       });
-      } catch (error) {
-        toast({
-          title: "Грешка",
-          description: "Възникна грешка при актуализиране на вашата колекция.",
-        });
-      }      
+    } catch (error) {
+      toast({
+        title: "Грешка",
+        description: "Възникна грешка при актуализиране на вашата колекция.",
+      });
+    }
   };
 
   return (
@@ -217,29 +217,29 @@ const EditForm = ({ flashcards, collection }: Props) => {
                     endpoint="imageUploader"
                   />
 
-                                {flashcard.imageUrl && (
-                                      <div className='h-[20vh] relative'>
-                                    <ImageModal
-                                      src={flashcard.imageUrl}
-                                      isOpen={isModalOpen}
-                                      onClose={() => setIsModalOpen(false)}
-                                    />
-                                    <div className="mt-2 mb-2">
-                                      <Image
-                                        onClick={() => setIsModalOpen(true)}
-                                        src={flashcard.imageUrl}
-                                        alt={`Image for question: ${flashcard.question}`}
-                                        className="object-cover object-center rounded-md transition-opacity duration-200 opacity-0 p-1 cursor-pointer"
-                                        fill
-                                        priority
-                                        onLoad={(e) => {
-                                          const image = e.currentTarget as HTMLImageElement;
-                                          image.classList.remove("opacity-0");
-                                        }}
-                                      />
-                                    </div>
-                                  </div>
-                                )}
+                  {flashcard.imageUrl && (
+                    <div className='h-[20vh] relative'>
+                      <ImageModal
+                        src={flashcard.imageUrl}
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                      />
+                      <div className="mt-2 mb-2">
+                        <Image
+                          onClick={() => setIsModalOpen(true)}
+                          src={flashcard.imageUrl}
+                          alt={`Image for question: ${flashcard.question}`}
+                          className="object-cover object-center rounded-md transition-opacity duration-200 opacity-0 p-1 cursor-pointer"
+                          fill
+                          priority
+                          onLoad={(e) => {
+                            const image = e.currentTarget as HTMLImageElement;
+                            image.classList.remove("opacity-0");
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex justify-end items-end mt-2">
