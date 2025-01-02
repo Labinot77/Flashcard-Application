@@ -78,13 +78,11 @@ const FlashcardsViewer = ({ flashcards }: FlashcardsViewerProps) => {
                 </div>
               )}
 
-              {/* Render the options as radio buttons */}
               <FormField
                 control={form.control}
                 name={flashcard.id}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Избери отговор</FormLabel>
                     <FormControl>
                       <div className="space-y-2">
                         {flashcard.options.map((option, index) => {

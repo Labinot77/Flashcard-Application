@@ -1,4 +1,4 @@
-import { addToSeenInCollection, getCollectionById } from "@/lib/actions/Collection";
+import { getCollectionById } from "@/lib/actions/Collection";
 import { getCurrentSessionUserData } from "@/lib/actions/User";
 import FlashcardsViewer from "./Components/FlashcardsViewer";
 
