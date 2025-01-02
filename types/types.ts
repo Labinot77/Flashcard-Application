@@ -1,4 +1,4 @@
-import { Classes, Collection, Flashcard, User, ClassUser} from "@prisma/client";
+import { Collection, Flashcard, User} from "@prisma/client";
 
 export type CollectionToUserExtended = Collection & {
   user: User;
@@ -44,6 +44,3 @@ export type UserDataExtendedToClassDataExtended = User & {
   classUsers: ClassUserExtended[];
 }
 
-export type ClassDataExtendedUserClassesExtended = ClassUserExtended & {
-  class: Classes; // Class related to this class user
-};
