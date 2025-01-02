@@ -20,8 +20,6 @@ import ThirdRouteItem from "./Routes/ThirdRouteItem"
 import UserInterface from "./UserInterface"
 import { getAllUsers, getCurrentSessionUserData } from "@/lib/actions/User"
 import { redirect } from "next/navigation"
-import { boolean } from "zod"
-import { useState } from "react"
 
 const MobileSidebar = async () => {
   const currentUser = await getCurrentSessionUserData();
@@ -54,7 +52,7 @@ const MobileSidebar = async () => {
               <ul className="mt-5">
                 <FirstRouteItem />
                 <Separator className="mt-4 mb-4" />
-                <SecondRouteItem currentUser={currentUser} users={AllUsers!} />
+                {/* <SecondRouteItem currentUser={currentUser} users={AllUsers!} /> */}
                 <Separator className="mt-4 mb-4" />
                 <ThirdRouteItem currentUser={currentUser} />
               </ul>

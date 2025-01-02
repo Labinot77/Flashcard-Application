@@ -22,7 +22,6 @@ const Sidebar = async () => {
             <Separator className="mt-4 mb-4" />
             <ThirdRouteItem currentUser={currentUser} />
           </ul>
-
           <UserInterface currentUser={currentUser!} />
         </div>
       </div>
