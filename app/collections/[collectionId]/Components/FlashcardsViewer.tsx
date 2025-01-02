@@ -36,7 +36,7 @@ const FlashcardsViewer = ({ flashcards }: FlashcardsViewerProps) => {
   const [submitted, setSubmitted] = useState(false);
   const form = useForm({
     defaultValues: flashcards.reduce((acc, flashcard) => {
-    // @ts-ignore
+      // @ts-expect-error asdadasd
     acc[flashcard.id] = "";
     return acc;
   }, {}),
