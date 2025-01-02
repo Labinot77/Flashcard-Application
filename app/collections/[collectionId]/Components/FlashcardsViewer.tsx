@@ -21,7 +21,7 @@ interface Flashcard {
   question: string;
   options: string[];
   answer: string;
-  image?: string;
+  image?: string | null;
 }
 
 interface FlashcardsViewerProps {

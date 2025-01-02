@@ -23,8 +23,6 @@ const page = async ({ params }: Props) => {
     );
   }
 
-  // Optionally, add to the collection as "seen" (this can be enabled when needed)
-  // await addToSeenInCollection(collection.id, currentUser.id);
 
   return (
       <FlashcardsViewer flashcards={flashcards} />
