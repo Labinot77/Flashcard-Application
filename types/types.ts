@@ -30,17 +30,17 @@ export type CollectionData = {
   }[];
 };
 
-export type ClassUserExtended = ClassUser & {
-  class: Classes; // Reference to the class the user is enrolled in
-  user: User;     // Reference to the user
-};
+// export type ClassUserExtended = ClassUser & {
+//   class: Classes; // Reference to the class the user is enrolled in
+//   user: User;     // Reference to the user
+// };
 
-export type ClassDataExtended = Classes & {
-  users?: User[]; // List of users enrolled in the class
-  classUsers: ClassUserExtended[];
-};
+// export type ClassDataExtended = Classes & {
+//   users?: User[]; // List of users enrolled in the class
+//   classUsers: ClassUserExtended[];
+// };
 
-export type UserDataExtendedToClassDataExtended = User & {
-  classUsers: ClassUserExtended[];
-}
+// export type UserDataExtendedToClassDataExtended = User & {
+//   classUsers: ClassUserExtended[];
+// }
 
