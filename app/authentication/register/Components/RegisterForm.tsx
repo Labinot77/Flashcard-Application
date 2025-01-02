@@ -96,7 +96,7 @@ const RegisterForm = () => {
           )}
         />
         <div className="flex justify-center items-center">
-        <DefaultButton className="bg-green-600" pending={isSubmitting}>Create an account</DefaultButton>
+        <DefaultButton className="bg-green-600" pending={isSubmitting} disabledText="Creating">Create an account</DefaultButton>
         </div>
       </form>
     </Form>

@@ -52,11 +52,6 @@ const SettingsModal = ({ children, currentUser }: Props) => {
     router.refresh()
   };
 
-  const handleImageClick = () => {
-    const newImageUrl = "https://i.pinimg.com/736x/a3/31/a8/a331a8d0a8ff50827c6cb3437f336a30.jpg";
-    form.setValue("image", newImageUrl);
-  };
-
   return (
     <Dialog open={open} onOpenChange={(prev) => setIsOpen(prev)}>
     <DialogTrigger asChild>
@@ -78,25 +73,11 @@ const SettingsModal = ({ children, currentUser }: Props) => {
             width={100}
             height={100}
             className="rounded-full"
-            onClick={() => handleImageClick()}
           />
          <p className="text-sm text-muted-foreground">ID: {currentUser.id}</p>
         </div>
 
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <DefaultInput {...field} placeholder="Title" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
+          
             <FormField
               control={form.control}
               name="email"

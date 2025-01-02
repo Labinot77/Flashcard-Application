@@ -10,10 +10,10 @@ export const noSpaces = (str: string) => {
 
 export const getMostRecentDate = (createdAt: Date, updatedAt: Date) => {
   if (createdAt.getTime() === updatedAt.getTime()) {
-    return `Created at: ${createdAt.toLocaleDateString()}`
+    return `Създадено: ${createdAt.toLocaleDateString()}`
   } else if (updatedAt > createdAt) {
-    return `Updated at: ${updatedAt.toLocaleDateString()}`
+    return `Обновено: ${updatedAt.toLocaleDateString()}`
   } else {
-    return `Created at: ${createdAt.toLocaleDateString()}`
+    return `Създадено: ${createdAt.toLocaleDateString()}`
   }
 };

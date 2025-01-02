@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import DeleteModal from "@/components/Modals/DeleteModal";
+import { deleteCollection } from "@/lib/actions/Collection";
 
 interface Props {
   title: string;
@@ -35,41 +36,30 @@ const CollectionBox = ({ title, description, flashcards, id, createdAt, updatedA
 
   const handleButton = async (action: string, id: string) => {
     setIsLoading((prev) => ({ ...prev, [action]: true }))
-    await wait(Math.random() * 1000)
+      await wait(Math.random() * 1000)
 
-    // if (action === "delete") {
-    //   await deleteCollection(id)
-    //   router.refresh()
-    // } else {
       router.push(id)
-    // }
 
     setIsLoading((prev) => ({ ...prev, [action]: false }))
   }
 
+  const actionHover = `hover:px-12 transition-all duration-300 ease-in-out `
+
   return (
     <Card 
-    className="p-3 mb-2"
-    >
-      <div className="flex gap-2 mb-1">
-        <DefaultButton className="bg-green-700 w-full" type="button" disabledText="Loading" pending={isLoading.view} onClick={() => handleButton("view", `/collections/${id}`)} >
+    className="p-3 mb-2">
+      <div className="flex justify-end gap-2 mb-1">
+        <DefaultButton className={`${actionHover} bg-green-700 `} type="button" disabledText="Зарежда" pending={isLoading.view} onClick={() => handleButton("view", `/collections/${id}`)} >
           <FaDoorClosed className="h-6 w-6 text-white" />
         </DefaultButton>
-        <div className="w-full flex gap-2">
-          <DefaultButton className="bg-orange-400 w-full" type="button" disabledText="Loading" pending={isLoading.edit} onClick={() => handleButton("edit", `/collections/edit/${id}`)} >
+          <DefaultButton className={`${actionHover} bg-orange-400`} type="button" disabledText="Зарежда" pending={isLoading.edit} onClick={() => handleButton("edit", `/collections/edit/${id}`)} >
             <MdEdit className="h-6 w-6 text-white" />
           </DefaultButton>
-          <DeleteModal id={id}>
-          {/* <DefaultButton className="bg-red-700" pending={isLoading.delete} type="button" onClick={() => handleButton("delete", id)} >
-            <MdDelete className="h-6 w-6 text-white" />
-          </DefaultButton> */}
-          <DefaultButton variant="destructive" pending={false} >
+          <DeleteModal action={() => deleteCollection(id)} id={id}>
+          <DefaultButton className={`${actionHover}`} variant="destructive" pending={false} >
             <MdDelete className="h-6 w-6 text-white" />
           </DefaultButton>
-        
-        
           </DeleteModal>
-        </div>
       </div>
 
       <CardHeader>
@@ -77,7 +67,7 @@ const CollectionBox = ({ title, description, flashcards, id, createdAt, updatedA
       <CardDescription className="">{description}</CardDescription>
       <Separator className="mt-1 mb-1" />
       <div className="flex justify-between">
-        <small>Flashcards: {flashcards}</small>
+        <small>Въпроси: {flashcards}</small>
         <small className="mr-2">{recentDate}</small>
       </div>
       </CardHeader>

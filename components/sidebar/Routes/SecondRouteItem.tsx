@@ -5,7 +5,6 @@ import { useClasses } from "@/hooks/useClasses";
 import { UserDataExtendedToClassDataExtended } from "@/types/types";
 import Link from "next/link";
 import { FaUsers } from "react-icons/fa";
-import CreateClassModal from "../../Modals/CreateClassModal";
 import { User } from "@prisma/client";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 
@@ -52,12 +51,12 @@ const SecondRouteItem = ({ users, currentUser }: Props) => {
         </div>
       )}
 
-      <CreateClassModal currentUser={currentUser} users={users}>
+      {/* <CreateClassModal currentUser={currentUser} users={users}>
         <div className="flex items-center gap-x-3 rounded-md p-3 mt-2 leading-6 font-semibold text-gray-500 hover:bg-gray-100 cursor-pointer hover:bg-secondary-foreground/40">
           <MdOutlinePeopleAlt className="h-7 w-7 shrink-0" />
           <span>Create a Class</span>
         </div>
-      </CreateClassModal>
+      </CreateClassModal> */}
     </>
   );
 };

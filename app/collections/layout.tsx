@@ -8,7 +8,6 @@ export default function CollectionsLayout({ children,
   return (
     <main className="mx-auto max-w-7xl h-full flex p-3">
       <Sidebar />
-      <MobileSidebar />
       <div className="sm:px-4 py-6 w-full">
       {children}
       </div>

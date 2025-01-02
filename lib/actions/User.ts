@@ -67,21 +67,6 @@ export const getCurrentSessionUserData = async () => {
         id: session.user.id
       },
       include: {
-        classUsers: {
-          include: {
-            class: {
-              include: {
-                classUsers: {
-                  include: {
-                    user: true,
-                    class: true,
-                  }
-                }
-              }
-            },
-            user: true
-          }
-        },
         collections: {
           include: {
             flashcards: true
@@ -96,6 +81,32 @@ export const getCurrentSessionUserData = async () => {
   }
 }
 
+export const testing1 = async () => {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    return null
+  }
+
+  try {
+    const currentSession = await db.user.findUnique({
+      where: {
+        id: session.user.id
+      },
+      include: {
+        collections: {
+          include: {
+            flashcards: true
+          },
+        },
+      }
+    })
+
+    return currentSession
+  } catch (error: any) {
+    throw new NextResponse("getCurrentSessionUser", error)
+  }
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const updateUser = async (values: z.infer<typeof UserValidation>) => {

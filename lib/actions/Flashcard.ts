@@ -14,7 +14,6 @@ export const getFlashcards = async (collectionId: string) => {
         id: true,
         answer: true,
         question: true,
-        hint: true,
         collectionId: true,
         collection: {
           select: {
@@ -36,15 +35,20 @@ export const getFlashcards = async (collectionId: string) => {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const createFlashcards = async (collectionId: string, question: string, answer: string, hint: string) => {
+export const createFlashcards = async (
+  collectionId: string,
+  question: string,
+  answer: string,
+  options: string[]
+) => {
   try {
     const res = await db.flashcard.create({
       data: {
         question,
         answer,
-        hint,
         collectionId,
-      }
+        options, // Store options
+      },
     });
 
     return { success: true };
@@ -60,21 +64,22 @@ export const updateFlashcard = async (flashcard: Flashcard) => {
   try {
     const res = await db.flashcard.update({
       where: {
-         id: flashcard.id
-       },
+        id: flashcard.id,
+      },
       data: {
         question: flashcard.question,
         answer: flashcard.answer,
-        hint: flashcard.hint,
+        options: flashcard.options, // Update options
         updatedAt: new Date(),
       },
-    })
+    });
 
     return { success: true };
   } catch (error: any) {
-    throw new NextResponse("updateFlashcard", error)
+    console.error("Error updating flashcard:", error);
+    throw new Error("Failed to update flashcard");
   }
-}
+};
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -90,3 +95,27 @@ export const deleteFlashcard = async (id: string) => {
   }
 }
 
+// //////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const selectQuestion = async () => {
+  try {
+    const flashcards = await db.flashcard.findMany({
+      select: {
+        id: true,
+        question: true,
+        answer: true,
+        options: true,
+        image: true,
+      },
+    });
+
+    if (flashcards.length === 0) {
+      return null; // No flashcards available
+    }
+
+    // Select a random flashcard
+    return flashcards
+  } catch (error: any) {
+    throw new NextResponse("Error selecting a random question", error);
+  }
+};

@@ -6,3 +6,4 @@ export const UserValidation = z.object({
   email: z.string().email(),
   image: z.string().optional(),
 })
+

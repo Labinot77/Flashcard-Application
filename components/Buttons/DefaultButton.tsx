@@ -21,7 +21,7 @@ export const DefaultButton = ({
   pending, 
   variant = "default", 
   type = "submit",
-  disabledText = "Saving" }: Props) => {
+  disabledText = "Запазване" }: Props) => {
   return (
     <>
     {pending ? (

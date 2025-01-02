@@ -1,35 +1,34 @@
-import { addToSeenInCollection, getCollectionById } from "@/lib/actions/Collection"
-import FlashcardSessionForm from "./Components/FlashcardSessionForm";
+import { addToSeenInCollection, getCollectionById } from "@/lib/actions/Collection";
 import { getCurrentSessionUserData } from "@/lib/actions/User";
+import FlashcardsViewer from "./Components/FlashcardsViewer";
 
 interface Props {
   params: Promise<{ 
-    collectionId: string 
+    collectionId: string;
   }>;
 }
 
 const page = async ({ params }: Props) => {
-  const { collectionId } = await params
-  const currentUser = await getCurrentSessionUserData()
-  const collection = await getCollectionById(collectionId)
-  const flashcards = collection?.flashcards
-  
+  const { collectionId } = await params;
+  const currentUser = await getCurrentSessionUserData();
+  const collection = await getCollectionById(collectionId);
+  const flashcards = collection?.flashcards;
+
   if (!collection || !flashcards || !currentUser) {
     return (
-    <main className="flex flex-col justify-center items-center h-full w-full">
-      <h1 className="text-2xl">Couldn't find collection</h1>
-      <h1 className="text-xl">Try again</h1>
+      <main className="flex flex-col justify-center items-center h-full w-full">
+        <h1 className="text-2xl">Couldn't find collection</h1>
+        <h1 className="text-xl">Try again</h1>
       </main>
-    )
+    );
   }
 
-  // if (currentUser?.id !== collection?.userId) {
-      await addToSeenInCollection(collection.id, currentUser.id)
-  // } 
+  // Optionally, add to the collection as "seen" (this can be enabled when needed)
+  // await addToSeenInCollection(collection.id, currentUser.id);
 
   return (
-   <FlashcardSessionForm collection={collection} flashcards={flashcards} currentUser={currentUser!} />
-  )
-}
+      <FlashcardsViewer flashcards={flashcards} />
+  );
+};
 
-export default page
+export default page;

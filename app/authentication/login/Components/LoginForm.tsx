@@ -83,7 +83,7 @@ const LoginForm = () => {
           )}
         />
         <div className="flex justify-center items-center">
-        <DefaultButton className="bg-green-600" pending={isSubmitting}>Login in</DefaultButton>
+        <DefaultButton className="bg-green-600" pending={isSubmitting} disabledText="Logging in">Login in</DefaultButton>
         </div>
       </form>
     </Form>

@@ -12,13 +12,13 @@ export const useRoutes1 = () => {
 
   const routes = useMemo(() => [
     {
-      label: "Home",
-      href: '/home',
+      label: "Случаен въпрос",
+      href: '/randomquestion',
       icon: AiOutlineHome, 
       active: pathname === '/home',
     },
     {
-      label: "Your library",
+      label: "Уроци",
       href: '/collections',
       icon: PiFolderOpenThin, 
       active: pathname === '/collections'  || pathname === '/collections/edit' || pathname === "/collections/create" || !!collectionId,

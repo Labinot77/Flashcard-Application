@@ -17,13 +17,12 @@ const page = async () => {
   
   return (
     <main className="h-full">
-        <ScrollArea className="pr-4 h-full rounded-md">
+        <ScrollArea className="pr-4 h-full rounded-sm">
          {collections.map((item) => (
           <CollectionBox
             key={item.id}
-            id={item.id} // HREF
+            id={item.id}
             title={item.title} 
-            description={item.description!} 
             createdAt={item.createdAt}
             updatedAt={item.updatedAt}
             flashcards={item.flashcards.length} />
@@ -31,38 +30,6 @@ const page = async () => {
         
         <NewCollection />
         </ScrollArea>
-      
-
-
-
-
-
-      {/* <DefaultButton pending={false} onClick={() => createCollection("test", "test desc")} >
-        Create a collection
-      </DefaultButton> */}
-
-      {/* <DefaultButton pending={false} onClick={() => createFlashcard("671e41acf543edb804d069a6", "This is question", "this is answer", "This is hint")} >
-        Create a collection
-      </DefaultButton> */}
-
-      {/* {flashcards.map((item) => (
-          <h1 className="mt-4">
-            {item.question} <br />
-            {item.answer} <br />
-            {item.hint} <br />
-            Collection id {item.id} <br />
-            Collection array {item.collection.id} - {item.collection.title} <br />
-
-          </h1>
-        ))} */}
-
-      {/* {collections.map((item) => (
-        <h1>
-          {item.title}
-          {item.description}
-          {item.flashcards.length}
-        </h1>
-      ))} */}
     </main>
   )
 }

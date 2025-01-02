@@ -22,6 +22,7 @@ const NewCollection = () => {
       <DefaultButton
         pending={isSubmitting}
         onClick={handleSubmit}
+        disabledText='Създава се'
         className="w-full h-full rounded-md flex justify-center items-center bg-button"
       >
         <GoPlus size={20} />
