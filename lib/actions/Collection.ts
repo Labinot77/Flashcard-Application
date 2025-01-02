@@ -110,7 +110,6 @@ export const updateCollection = async (
   existingFlashcards: Flashcard[],
   newFlashcards: Flashcard[],
   flashcardsToDelete: string[],
-  description?: string
 ) => {
   try {
     // Update collection's title
@@ -144,7 +143,8 @@ export const updateCollection = async (
           flashcard.collectionId!,
           flashcard.question,
           flashcard.answer,
-          flashcard.options
+          flashcard.answer,
+          flashcard.options,
         );
       }
     }

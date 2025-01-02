@@ -39,6 +39,7 @@ export const createFlashcards = async (
   collectionId: string,
   question: string,
   answer: string,
+  image: string,
   options: string[]
 ) => {
   try {
@@ -47,6 +48,7 @@ export const createFlashcards = async (
         question,
         answer,
         collectionId,
+        image,
         options, // Store options
       },
     });
@@ -70,6 +72,7 @@ export const updateFlashcard = async (flashcard: Flashcard) => {
         question: flashcard.question,
         answer: flashcard.answer,
         options: flashcard.options, // Update options
+        image: flashcard.image,
         updatedAt: new Date(),
       },
     });

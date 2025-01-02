@@ -18,12 +18,12 @@ export const ImageModal = ({src, isOpen, onClose}: Props) => {
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[70vw] sm:h-[70vh] max-w-[425px] h-[425px]">
+      <DialogContent className="sm:max-w-[70vw] sm:h-[70vh] max-w-[425px] max-h-[425px]">
         <Image 
         src={src}
         alt="Image"
         fill
-        className="object-cover object-center"/>
+        className="object-contain object-center"/>
       </DialogContent>
     </Dialog>
   )

@@ -25,7 +25,7 @@ const page = async ({ params }: Props) => {
 
 
   return (
-      <FlashcardsViewer flashcards={flashcards} />
+      <FlashcardsViewer collection={collection}  flashcards={flashcards} />
   );
 };
 

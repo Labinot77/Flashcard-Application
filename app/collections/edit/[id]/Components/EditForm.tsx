@@ -204,7 +204,6 @@ const EditForm = ({ flashcards, collection }: Props) => {
                   ))}
                 </div>
 
-                {/* Image upload */}
                 <div className="mt-2">
                   <UploadButton
                     onClientUploadComplete={(res) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { ImageModal } from "@/components/Modals/ImageModal";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Collection } from "@prisma/client";
 
 interface Flashcard {
   id: string;
@@ -26,16 +27,37 @@ interface Flashcard {
 
 interface FlashcardsViewerProps {
   flashcards: Flashcard[];
+  collection: Collection;
 }
 
-const FlashcardsViewer = ({ flashcards }: FlashcardsViewerProps) => {
+// Utility function to shuffle an array
+const shuffleArray = <T,>(array: T[]): T[] => {
+  return array
+    .map((item) => ({ item, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ item }) => item);
+};
+
+const FlashcardsViewer = ({ flashcards, collection }: FlashcardsViewerProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userAnswers, setUserAnswers] = useState<Map<string, string>>(new Map());
   const [submitted, setSubmitted] = useState(false);
 
-  // Define the accumulator type for the reduce function
+  // Shuffle questions and options on initial load
+  const [shuffledFlashcards, setShuffledFlashcards] = useState<Flashcard[]>([]);
+
+  useEffect(() => {
+    const shuffled = shuffleArray(
+      flashcards.map((flashcard) => ({
+        ...flashcard,
+        options: shuffleArray(flashcard.options), // Shuffle options for each flashcard
+      }))
+    );
+    setShuffledFlashcards(shuffled); // Shuffle the entire list of flashcards
+  }, [flashcards]);
+
   const form = useForm({
-    defaultValues: flashcards.reduce<Record<string, string>>((acc, flashcard) => {
+    defaultValues: shuffledFlashcards.reduce<Record<string, string>>((acc, flashcard) => {
       acc[flashcard.id] = ""; // Initialize empty string for each flashcard's ID
       return acc;
     }, {}),
@@ -50,7 +72,8 @@ const FlashcardsViewer = ({ flashcards }: FlashcardsViewerProps) => {
     <ScrollArea className="pr-4 h-full rounded-sm">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {flashcards.map((flashcard) => (
+          <h1 className="text-2xl">{collection.title}</h1>
+          {shuffledFlashcards.map((flashcard) => (
             <div key={flashcard.id} className="space-y-4 p-4 border rounded-md">
               <div className="text-xl mb-2">{flashcard.question}</div>
 
