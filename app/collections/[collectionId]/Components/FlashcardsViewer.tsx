@@ -30,17 +30,16 @@ interface FlashcardsViewerProps {
 
 const FlashcardsViewer = ({ flashcards }: FlashcardsViewerProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [userAnswers, setUserAnswers] = useState<Map<string, string>>(
-    new Map()
-  );
+  const [userAnswers, setUserAnswers] = useState<Map<string, string>>(new Map());
   const [submitted, setSubmitted] = useState(false);
+
+  // Define the accumulator type for the reduce function
   const form = useForm({
-    defaultValues: flashcards.reduce((acc, flashcard) => {
-      // @ts-expect-error asdadasd
-    acc[flashcard.id] = "";
-    return acc;
-  }, {}),
-});
+    defaultValues: flashcards.reduce<Record<string, string>>((acc, flashcard) => {
+      acc[flashcard.id] = ""; // Initialize empty string for each flashcard's ID
+      return acc;
+    }, {}),
+  });
 
   const onSubmit = async (values: any) => {
     setUserAnswers(new Map(Object.entries(values)));
@@ -56,7 +55,7 @@ const FlashcardsViewer = ({ flashcards }: FlashcardsViewerProps) => {
               <div className="text-xl mb-2">{flashcard.question}</div>
 
               {flashcard.image && (
-                    <div className='h-[20vh] relative'>
+                <div className="h-[20vh] relative">
                   <ImageModal
                     src={flashcard.image}
                     isOpen={isModalOpen}
@@ -89,8 +88,7 @@ const FlashcardsViewer = ({ flashcards }: FlashcardsViewerProps) => {
                     <FormControl>
                       <div className="space-y-2">
                         {flashcard.options.map((option, index) => {
-                          const isSelected =
-                            userAnswers.get(flashcard.id) === option;
+                          const isSelected = userAnswers.get(flashcard.id) === option;
                           const isCorrect = option === flashcard.answer;
 
                           return (
@@ -134,37 +132,6 @@ const FlashcardsViewer = ({ flashcards }: FlashcardsViewerProps) => {
           </div>
         </form>
       </Form>
-
-      {/* {submitted && (
-        <div className="mt-8">
-          <h2 className="text-2xl font-semibold">Results</h2>
-          <ul className="space-y-2 mt-4">
-            {flashcards.map((flashcard) => {
-              const isSelected = userAnswers.get(flashcard.id);
-              const isCorrect = isSelected === flashcard.answer;
-              return (
-                <li
-                  key={flashcard.id}
-                  className={`p-2 border rounded-md ${
-                    isCorrect ? "bg-green-100" : "bg-red-100"
-                  }`}
-                >
-                  <div className="font-semibold">{flashcard.question}</div>
-                  <div className="mt-2">
-                    <span
-                      className={`${
-                        isCorrect ? "text-green-500" : "text-red-500"
-                      }`}
-                    >
-                      {isCorrect ? "Correct!" : "Incorrect!"} The correct answer is: {flashcard.answer}
-                    </span>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      )} */}
     </ScrollArea>
   );
 };
