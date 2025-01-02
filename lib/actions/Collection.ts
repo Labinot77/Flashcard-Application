@@ -65,11 +65,11 @@ export const createCollection = async (values: any) => {
         title: values.title,
         userId: currentUser.id,
         flashcards: {
-          create: values.flashcards.map((flashcard) => ({
+          create: values.flashcards.map((flashcard: Flashcard) => ({
             question: flashcard.question,
             answer: flashcard.answer || "",
             options: flashcard.options,
-            image: flashcard.imageUrl,
+            image: flashcard.image,
           })),
         },
       },
